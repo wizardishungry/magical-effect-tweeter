@@ -19,7 +19,8 @@ foreach($tweets as $tweet) {
   $txt=preg_replace(Array('/GMGMGMGM/', '/RPRPRPRP/'), Array('Gucci Mane', 'Ron Paul'), $txt);
 	$status = 'RT @'.$tweet->from_user.' '.$txt;
   if( strlen($status)<=140 && !preg_match('/librrrtarian/i',$status)
-    &&!preg_match('/RT /i',$txt) &&!preg_match('/#np/i', $txt)&&!preg_match('/bot/i',$status))
+    &&!preg_match('/Now Playing/i',$txt)&&!preg_match('/NowPlaying/i',$txt)
+    &&!preg_match('/RT /i',$txt) &&!preg_match('/[ #]np/i', $txt)&&!preg_match('/bot/i',$status))
   {
       $twitter->post('statuses/update', array('status' => $status));
     //echo $tweet->text,"\n";
