@@ -54,15 +54,31 @@ $used=array();
 foreach($tweets as $tweet) {
   if(in_array($tweet,$used)) break;
 
+  $txt=preg_replace(
+    Array('/Ron Paul/i','/Gucci Mane/i','/Waka Flo[c]?ka/i', '/Sarah Palin/i', '/Palin/i', '/Soulja Boy/i'),
+    Array('GMGMGMGM', 'RPRPRPRP','SPSPSPSP','WFWFWFWF', 'FFFFFFFF','RPRPRPRP'),
+  $tweet->text);
+  $txt=preg_replace(
+    Array('/GMGMGMGM/', '/RPRPRPRP/','/GucciDoinThings/','/SPSPSPSP/','/WFWFWFWF/','/FFFFFFFF/','/RPRPRPRP/'),
+    Array('Gucci Mane', 'Ron Paul','RonPaul', 'Sarah Palin','Waka Flocka','Flocka','Rick Perry'),
+  $txt);
+
   $state=0;
   if(preg_match('/@yeahok/',$tweet->text)|| preg_match('/@yeahok/',$tweet->from_user)) {
-    $txt=preg_replace(Array('/Ron Paul/i', '/Gucci Mane/i','/GucciDoinThings/i','/@gucci1017/i','/librrrtarian/i'), Array('state', 'state','yeahok','@yeahok','@yeahok','McDonaldsCorp'), $tweet->text);
+    $txt=preg_replace(
+      Array('/Ron Paul/i', '/Gucci Mane/i','/GucciDoinThings/i','/@gucci1017/i','/librrrtarian/i'),
+      Array('state', 'state','yeahok','@yeahok','@yeahok','McDonaldsCorp'),
+    $tweet->text);
     $state=-1;
   } else {
-    $state=rand(0,10);
-    $txt=preg_replace(Array('/Ron Paul/i','/Gucci Mane/i'), Array('GMGMGMGM', 'RPRPRPRP'), $tweet->text);
-    $txt=preg_replace(Array('/GMGMGMGM/', '/RPRPRPRP/','/GucciDoinThings/'), Array('Gucci Mane', 'Ron Paul','RonPaul'), $txt);
+    $state=rand(0,11);
   }
+
+  $txt=preg_replace(
+    Array('/music/'),
+    Array('/politics/'),
+  $txt);
+  
 
   $is_ron = in_array($tweet,$ron->results);
   $params=array(
@@ -84,12 +100,15 @@ foreach($tweets as $tweet) {
       // fall through
     case -1:
     case 2:
-      // default, just swap txt
-      if(preg_match('/^\w*@/',$txt)) { // don't RT @replies
-         /*echo "SKIP3 \"$txt\"\n";*/  continue 2;
-      }
+      // just swap txt & RT
       $status = 'RT @'.$user.' '.$txt;
       $target=$tweet;
+      break;
+    case 11:
+      // just tweet something, maybe add some #hash lateR?
+      $status=$txt;
+      if(preg_match('/@/',$txt) || preg_match('/[#]/',$txt)) // no mentioning ppl or tags
+        continue 2;
       break;
     default:
       // @reply to tweet from other column
@@ -103,17 +122,15 @@ foreach($tweets as $tweet) {
   }
 
   if( strlen($status)<=140 && ((!preg_match('/librrrtarian/i',$status)
-    &&!preg_match('/Now Playin/i',$txt)&&!preg_match('/NowPlayin/i',$txt)
-    &&!preg_match('/http/i',$txt)
-    &&!preg_match('/RT /i',$txt) &&!preg_match('/[ #]np/i', $txt)&&!preg_match('/bot/i',$status))||$state==-1))
+    &&!preg_match('/RT /i',$txt) )||$state==-1))
   {
     $used[]=$target;
     $used[]=$tweet;
     $params['status']=$status;
     $twitter->post('statuses/update', $params);
     //print_r($tweet); exit;
-    //echo $tweet->from_user, ":: ", $tweet->text,"\n";
-    //echo $status,"\n";
+    echo $tweet->from_user, ":: ", $tweet->text,"\n";
+    echo $status,"\n";
 
     if($target) {
       if(!$is_ron)
