@@ -8,8 +8,41 @@ define('ACCESS_TOKEN_SECRET', 'insert_your_access_token_secret_here');
 
 $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
 $twitter->host = "http://search.twitter.com/";
-$ron = $twitter->get('search', array('q' => 'ron paul', 'rpp' => 20));
-$gucci = $twitter->get('search', array('q' => 'gucci mane', 'rpp' => 20));
+$ron = $twitter->get('search', array('q' => 'ron paul', 'rpp' => 40));
+$gucci = $twitter->get('search', array('q' => 'gucci mane', 'rpp' => 40));
+
+$bad_words = array(
+  '[^\W]ash',
+  'video',
+  'ft.',
+  'feat[. ]',
+  'playin',
+  'np',
+  'lips',
+  '^RT',
+  '^@',
+  'http',
+  'song',
+  'rapp',
+  'nigger',
+  'nigga',
+  'ghetto',
+  'chapstick',
+  'via @',
+  'pac man',
+);
+foreach(array(&$ron,&$gucci) as $a) {
+    $a->results=array_filter($a->results, function($tweet) {
+      global $bad_words; 
+      foreach($bad_words as $word)
+        if(preg_match("/$word/i",$tweet->text) != false)
+        {
+          //echo "EVICT: $word ", $tweet->text,"\n";
+          return false;
+        }
+      return true;
+    });
+}
 
 $twitter->host = "https://api.twitter.com/1/";
 $tweets = array_merge($ron->results,$gucci->results);
