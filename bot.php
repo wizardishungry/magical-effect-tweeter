@@ -33,7 +33,7 @@ foreach($tweets as $tweet) {
 
   $is_ron = in_array($tweet,$ron->results);
   $params=array(
-    'in_reply_to_status_id'=>$tweet->id_str
+    //'in_reply_to_status_id'=>$tweet->id_str
   );
 
   $target=null;
@@ -66,13 +66,7 @@ foreach($tweets as $tweet) {
       }
       $params['in_reply_to_status_id']=$target->id_str;
       $status = '@'. $target->from_user." $txt";
-      //echo "REPLYTO ",$target->from_user, ":: ", $target->text,"\n";
-  }
-  if($target) {
-    if(!$is_ron)
-      $ron->results=array_slice($ron->results,1);
-    else
-      $gucci->results=array_slice($gucci->results,1);
+      echo "REPLYTO ",$target->from_user, ":: ", $target->text,"\n";
   }
 
   if( strlen($status)<=140 && ((!preg_match('/librrrtarian/i',$status)
@@ -82,10 +76,18 @@ foreach($tweets as $tweet) {
     $used[]=$target;
     $used[]=$tweet;
     $params['status']=$status;
-      $twitter->post('statuses/update', $params);
+    $twitter->post('statuses/update', $params);
     //print_r($tweet); exit;
-    //echo $tweet->from_user, ":: ", $tweet->text,"\n";
-    //echo $status,"\n";
+    echo $tweet->from_user, ":: ", $tweet->text,"\n";
+    echo $status,"\n";
+
+    if($target) {
+      if(!$is_ron)
+        $ron->results=array_slice($ron->results,1);
+      else
+        $gucci->results=array_slice($gucci->results,1);
+    }
+
     sleep(rand(60,120));
     //sleep(5);
   }
