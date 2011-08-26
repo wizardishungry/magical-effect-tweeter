@@ -66,11 +66,12 @@ foreach($tweets as $tweet) {
       }
       $params['in_reply_to_status_id']=$target->id_str;
       $status = '@'. $target->from_user." $txt";
-      echo "REPLYTO ",$target->from_user, ":: ", $target->text,"\n";
+      //echo "REPLYTO ",$target->from_user, ":: ", $target->text,"\n";
   }
 
   if( strlen($status)<=140 && ((!preg_match('/librrrtarian/i',$status)
     &&!preg_match('/Now Playin/i',$txt)&&!preg_match('/NowPlayin/i',$txt)
+    &&!preg_match('/http/i',$txt)
     &&!preg_match('/RT /i',$txt) &&!preg_match('/[ #]np/i', $txt)&&!preg_match('/bot/i',$status))||$state==-1))
   {
     $used[]=$target;
