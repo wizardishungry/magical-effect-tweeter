@@ -14,20 +14,76 @@ $gucci = $twitter->get('search', array('q' => 'gucci mane', 'rpp' => 20));
 $twitter->host = "https://api.twitter.com/1/";
 $tweets = array_merge($ron->results,$gucci->results);
 shuffle($tweets);
+shuffle($ron->results);
+shuffle($gucci->results);
+$used=array();
+
 foreach($tweets as $tweet) {
-  $txt=preg_replace(Array('/Ron Paul/i','/Gucci Mane/i'), Array('GMGMGMGM', 'RPRPRPRP'), $tweet->text);
-  $txt=preg_replace(Array('/GMGMGMGM/', '/RPRPRPRP/'), Array('Gucci Mane', 'Ron Paul'), $txt);
-	$status = 'RT @'.$tweet->from_user.' '.$txt;
-  if(preg_match('/@yeahok/',$status)) {
-    $status=preg_replace(Array('/Ron Paul/i', '/Gucci Mane/i','/GucciDoinThings/i','/@gucci1017/i',), Array('state', 'state','yeahok','@yeahok','@yeahok'), $status);
+  if(in_array($tweet,$used)) break;
+
+  $state=0;
+  if(preg_match('/@yeahok/',$tweet->text)|| preg_match('/@yeahok/',$tweet->from_user)) {
+    $txt=preg_replace(Array('/Ron Paul/i', '/Gucci Mane/i','/GucciDoinThings/i','/@gucci1017/i','/librrrtarian/i'), Array('state', 'state','yeahok','@yeahok','@yeahok','McDonaldsCorp'), $tweet->text);
+    $state=-1;
+  } else {
+    $state=rand(0,10);
+    $txt=preg_replace(Array('/Ron Paul/i','/Gucci Mane/i'), Array('GMGMGMGM', 'RPRPRPRP'), $tweet->text);
+    $txt=preg_replace(Array('/GMGMGMGM/', '/RPRPRPRP/'), Array('Gucci Mane', 'Ron Paul'), $txt);
   }
-  if( strlen($status)<=140 && !preg_match('/librrrtarian/i',$status)
-    &&!preg_match('/Now Playing/i',$txt)&&!preg_match('/NowPlaying/i',$txt)
-    &&!preg_match('/RT /i',$txt) &&!preg_match('/[ #]np/i', $txt)&&!preg_match('/bot/i',$status))
+
+  $is_ron = in_array($tweet,$ron->results);
+  $params=array(
+    'in_reply_to_status_id'=>$tweet->id_str
+  );
+
+  $target=null;
+  $user=$tweet->from_user;
+  //echo "STATE $state is ron $is_ron \n";
+  switch($state) {
+    case 0:
+    case 1:
+      // false retweet, pop someone from other column
+      $target=!$is_ron?@$ron->results[0]:@$gucci->results[0];
+      if(!$target) {
+        /*echo "SKIP1\n";*/ break 2;
+      }
+      $user=$target->from_user;
+      // fall through
+    case -1:
+    case 2:
+      // default, just swap txt
+      $status = 'RT @'.$user.' '.$txt;
+      $target=$tweet;
+      break;
+    default:
+      // @reply to tweet from other column
+      $target=!$is_ron?@$ron->results[0]:@$gucci->results[0];
+      if(!$target) {
+        /*echo "SKIP2\n";*/ break 2;
+      }
+      $params['in_reply_to_status_id']=$target->id_str;
+      $status = '@'. $target->from_user." $txt";
+      //echo "REPLYTO ",$target->from_user, ":: ", $target->text,"\n";
+  }
+  if($target) {
+    if(!$is_ron)
+      $ron->results=array_slice($ron->results,1);
+    else
+      $gucci->results=array_slice($gucci->results,1);
+  }
+
+  if( strlen($status)<=140 && ((!preg_match('/librrrtarian/i',$status)
+    &&!preg_match('/Now Playin/i',$txt)&&!preg_match('/NowPlayin/i',$txt)
+    &&!preg_match('/RT /i',$txt) &&!preg_match('/[ #]np/i', $txt)&&!preg_match('/bot/i',$status))||$state==-1))
   {
-      $twitter->post('statuses/update', array('status' => $status));
-    //echo $tweet->text,"\n";
-    echo $status,"\n";
+    $used[]=$target;
+    $used[]=$tweet;
+    $params['status']=$status;
+      $twitter->post('statuses/update', $params);
+    //print_r($tweet); exit;
+    //echo $tweet->from_user, ":: ", $tweet->text,"\n";
+    //echo $status,"\n";
     sleep(rand(60,120));
+    //sleep(5);
   }
 }
