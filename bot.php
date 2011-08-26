@@ -45,13 +45,16 @@ foreach($tweets as $tweet) {
       // false retweet, pop someone from other column
       $target=!$is_ron?@$ron->results[0]:@$gucci->results[0];
       if(!$target) {
-        /*echo "SKIP1\n";*/ break 2;
+        /*echo "SKIP1\n";*/ continue;
       }
       $user=$target->from_user;
       // fall through
     case -1:
     case 2:
       // default, just swap txt
+      if(preg_match('/^@/',$txt)) { // don't RT @replies
+        /* echo "SKIP3\n"; */ continue;
+      }
       $status = 'RT @'.$user.' '.$txt;
       $target=$tweet;
       break;
@@ -59,7 +62,7 @@ foreach($tweets as $tweet) {
       // @reply to tweet from other column
       $target=!$is_ron?@$ron->results[0]:@$gucci->results[0];
       if(!$target) {
-        /*echo "SKIP2\n";*/ break 2;
+        /*echo "SKIP2\n";*/ continue;
       }
       $params['in_reply_to_status_id']=$target->id_str;
       $status = '@'. $target->from_user." $txt";
