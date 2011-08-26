@@ -28,7 +28,7 @@ foreach($tweets as $tweet) {
   } else {
     $state=rand(0,10);
     $txt=preg_replace(Array('/Ron Paul/i','/Gucci Mane/i'), Array('GMGMGMGM', 'RPRPRPRP'), $tweet->text);
-    $txt=preg_replace(Array('/GMGMGMGM/', '/RPRPRPRP/'), Array('Gucci Mane', 'Ron Paul'), $txt);
+    $txt=preg_replace(Array('/GMGMGMGM/', '/RPRPRPRP/','/GucciDoinThings/'), Array('Gucci Mane', 'Ron Paul','RonPaul'), $txt);
   }
 
   $is_ron = in_array($tweet,$ron->results);
@@ -45,15 +45,15 @@ foreach($tweets as $tweet) {
       // false retweet, pop someone from other column
       $target=!$is_ron?@$ron->results[0]:@$gucci->results[0];
       if(!$target) {
-        /*echo "SKIP1\n";*/ continue;
+        /*echo "SKIP1\n";*/ continue 2;
       }
       $user=$target->from_user;
       // fall through
     case -1:
     case 2:
       // default, just swap txt
-      if(preg_match('/^@/',$txt)) { // don't RT @replies
-        /* echo "SKIP3\n"; */ continue;
+      if(preg_match('/^\w*@/',$txt)) { // don't RT @replies
+         /*echo "SKIP3 \"$txt\"\n";*/  continue 2;
       }
       $status = 'RT @'.$user.' '.$txt;
       $target=$tweet;
@@ -62,7 +62,7 @@ foreach($tweets as $tweet) {
       // @reply to tweet from other column
       $target=!$is_ron?@$ron->results[0]:@$gucci->results[0];
       if(!$target) {
-        /*echo "SKIP2\n";*/ continue;
+        /*echo "SKIP2\n";*/ continue 2;
       }
       $params['in_reply_to_status_id']=$target->id_str;
       $status = '@'. $target->from_user." $txt";
@@ -78,8 +78,8 @@ foreach($tweets as $tweet) {
     $params['status']=$status;
     $twitter->post('statuses/update', $params);
     //print_r($tweet); exit;
-    echo $tweet->from_user, ":: ", $tweet->text,"\n";
-    echo $status,"\n";
+    //echo $tweet->from_user, ":: ", $tweet->text,"\n";
+    //echo $status,"\n";
 
     if($target) {
       if(!$is_ron)
