@@ -1,10 +1,6 @@
-<?
+<?php
 require_once('twitteroauth/twitteroauth/twitteroauth.php');
-
-define('CONSUMER_KEY', 'insert_your_consumer_key_here');
-define('CONSUMER_SECRET', 'insert_your_consumer_secret_here');
-define('ACCESS_TOKEN', 'insert_your_access_token_here');
-define('ACCESS_TOKEN_SECRET', 'insert_your_access_token_secret_here');
+require_once('config.php');
 
 $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
 $twitter->host = "http://search.twitter.com/";
@@ -33,17 +29,17 @@ $bad_words = array(
 );
 foreach(array(&$ron,&$gucci) as $a) {
     $a->results=array_filter($a->results, function($tweet) {
-      global $bad_words; 
+      global $bad_words;
       foreach($bad_words as $word)
         if(preg_match("/$word/i",$tweet->text) != false)
         {
-          //echo "EVICT: $word ", $tweet->text,"\n";
+          echo "EVICT: $word ", $tweet->text,"\n";
           return false;
         }
       return true;
     });
 }
-
+exit;
 $twitter->host = "https://api.twitter.com/1/";
 $tweets = array_merge($ron->results,$gucci->results);
 shuffle($tweets);
@@ -78,7 +74,7 @@ foreach($tweets as $tweet) {
     Array('/music/'),
     Array('/politics/'),
   $txt);
-  
+
 
   $is_ron = in_array($tweet,$ron->results);
   $params=array(
