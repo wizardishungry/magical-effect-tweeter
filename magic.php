@@ -774,6 +774,6 @@ class Magic
             }
         }
 
-        return chop($strReturn);
+        return trim($strReturn);
     }
 }
