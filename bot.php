@@ -15,17 +15,18 @@ $bad_words = array(
   'via @',
   'RT @',
   ':',
-  'Rush',
-  'stolas',
+  '@',
   'Stolas_REAL',
 );
 
 $searches = array(
-    '"magic underwear"',
-    '"roll the bones"',
-    'kolob',
-    '"blood oath"',
-    '"would sell my soul for"',
+    'stolas',
+    '"hail satan"',
+    '"praise satan"',
+    '"praise lucifer"',
+    '"satan is lord"',
+    '"so help me satan"',
+    '"i worship satan"',
 );
 
 $wait_time = 86400;
@@ -58,12 +59,14 @@ foreach($searches as $search) {
 foreach($results as $a) {
     $a->results=array_filter($a->results, function($tweet) {
       global $bad_words;
-      foreach($bad_words as $word)
-        if(preg_match("/$word/i",$tweet->text) != false)
+      foreach($bad_words as $word) {
+        $flag = (($word==strtolower($word))?"i":'');
+        if(preg_match("/$word/$flag",$tweet->text) != false)
         {
           //echo "REJECT($word): ", $tweet->text,"\n";
           return false;
         }
+      }
       return true;
     });
 }
@@ -91,13 +94,12 @@ foreach($tweets as $tweet) {
   $params['status']=$status;
   $time = strtotime($tweet->created_at);
 
-  if(strlen($status)<=140 && $time-@$state['users'][$user]>$wait_time && time()-@$state['users'][$user]>$wait_time ){
+  if(strlen($status)<=140 && $time-@$state['users'][$user]>$wait_time && time()-@$state['users'][$user]>$wait_time && time()-$time<$wait_time ){
     $yes = true;
     $used[]=$tweet;
     $state['users'][$user]=time();
     file_put_contents("$path/STATE",json_encode($state));
     $twitter->post('statuses/update', $params);
-    //sleep(5);
   }
   else {
     $yes = false;
@@ -106,6 +108,7 @@ foreach($tweets as $tweet) {
   if($yes) {
     echo ' ', $tweet->from_user, ":: ", $tweet->text,"\n";
     echo $status,"\n\n";
+    //sleep(5);
     sleep(rand(60,120));
   }
 
