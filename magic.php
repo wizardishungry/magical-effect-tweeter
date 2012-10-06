@@ -35,6 +35,7 @@ class Magic
         // 128 - AND you blah blah blah;
         // 256 - Plural body effects;
 
+        // {{{
         $aItemWords[$iCounter]="You turn into a housecat";
         $aItemCodes[$iCounter++]=1;
         $aItemWords[$iCounter]="You turn into a dog";
@@ -700,6 +701,7 @@ class Magic
         $aCheckText[$iCounter++] = array(" "," and then ",".");
         $aCheckArray[$iCounter] = array(1,8);
         $aCheckText[$iCounter++] = array(" ",". ",".");
+        // }}}
 
         $this->aCheckText=$aCheckText;
         $this->aCheckArray=$aCheckArray;
@@ -772,6 +774,6 @@ class Magic
             }
         }
 
-        return $strReturn;
+        return chop($strReturn);
     }
 }
