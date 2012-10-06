@@ -21,7 +21,7 @@ $bad_words = array(
 );
 
 $searches = array(
-  //  '"magic underwear"',
+    '"magic underwear"',
     '"roll the bones"',
     'kolob',
     '"blood oath"',
@@ -97,7 +97,6 @@ foreach($tweets as $tweet) {
     $state['users'][$user]=time();
     file_put_contents("$path/STATE",json_encode($state));
     $twitter->post('statuses/update', $params);
-    sleep(rand(60,120));
     //sleep(5);
   }
   else {
@@ -107,6 +106,7 @@ foreach($tweets as $tweet) {
   if($yes) {
     echo ' ', $tweet->from_user, ":: ", $tweet->text,"\n";
     echo $status,"\n\n";
+    sleep(rand(60,120));
   }
 
 }
