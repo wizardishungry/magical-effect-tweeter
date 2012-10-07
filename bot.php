@@ -17,7 +17,8 @@ $bad_words = array(
   'RT @',
   ':',
   '@',
-  'Stolas_REAL',
+  'stolas_real',
+  'prince_stolas',
 );
 
 $searches = array(
@@ -91,7 +92,8 @@ $tweets = array_filter($tweets, function($tweet) {
         $flag = (($word==strtolower($word))?"i":'');
         if(preg_match("/$word/$flag",$tweet->text) != false) {
             //echo "REJECT($word): ", $tweet->text,"\n";
-            $tweet->score-=70;
+            $tweet->score-=250;
+            return false;
             break;
         }
     }
@@ -114,18 +116,19 @@ $tweets = array_filter($tweets, function($tweet) {
     $tweet->score+=0.03*min(1000,$tweet->user->favourites_count);
     $tweet->score-=20*$tweet->user->verified;
 
-    $tweet->score*=-1;
+    $ok = false;
 
     foreach($searches as $word) {
         $flag = (($word==strtolower($word))?"i":'');
         if(preg_match("/$word/$flag",$tweet->text) != false) {
             //echo "ACCEPT($word): ", $tweet->text,"\n";
-            $tweet->score=2*abs($tweet->score);
+            $tweet->score+=150;
+            $ok=true;
         }
     }
 
 
-    return true;
+    return $ok;
     return $tweet->score>0;
 });
 
