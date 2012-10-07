@@ -10,7 +10,8 @@ $flags=FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES;
 $searches  = file("$path/whitelist.txt",$flags);
 $bad_words = file("$path/blacklist.txt",$flags);
 
-$user_wait_time = 86400; // time before responding to user again
+$one_day=86400;
+$user_wait_time = 7*$one_day; // time before responding to user again
 
 /////////////////////////////////////////////////////////////////////////////////////////
 date_default_timezone_set('America/New_York');
@@ -32,7 +33,16 @@ $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_
 
 $twitter->host = "https://api.twitter.com/1/";
 $tweets = $twitter->get('statuses/friends_timeline',array('count' => 140));
-//$tweets = $twitter->get('statuses/mentions',array('include_rts' => false));
+
+
+$mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
+foreach($mentions as $mention) {
+    if(@$consider[$mention->user->screen_name] < strtotime($mention->created_at) && time()-@$consider[$mention->user->screen_name]>$one_day)
+    {
+        //echo "unsetting ",$mention->user->screen_name,"\n";
+        $consider[$mention->user->screen_name]=0;
+    }
+}
 
 
 $tweets = array_filter($tweets, function($tweet) {
@@ -87,7 +97,7 @@ $tweets = array_filter($tweets, function($tweet) {
     }
 
 
-    return $ok>0;
+    return $ok>0 || $tweet->score > 100;
     return $tweet->score>0;
 });
 
@@ -138,7 +148,7 @@ foreach($tweets as $tweet) {
 
     file_put_contents("$path/STATE",json_encode($state));
 
-    if(true/*&&$allowed&&$yes&&$considerable*/) {
+    if(true&&$allowed/*&&$yes&&$considerable*/) {
         echo "DIFF=$difficulty,SCORE={$tweet->score},CONSIDER=$considerable,YES=$yes,ALLOW=$allowed\n";
         echo $tweet->user->screen_name, ":: ", $tweet->text,"\n";
         echo $status,"\n\n";
