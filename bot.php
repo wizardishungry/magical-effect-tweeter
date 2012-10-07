@@ -52,6 +52,8 @@ $searches = array(
     "pisces",
     "sagittarius",
     "libra",
+    "witch",
+    "witch house",
     "leo",
 );
 
@@ -98,11 +100,11 @@ $tweets = array_filter($tweets, function($tweet) {
 
     if($tweet->retweeted) $tweet->score-=20;
     if($tweet->in_reply_to_screen_name) $tweet->score-=10;
-    $tweet->score+=100*palindrome($tweet->text);
+    $tweet->score+=300*palindrome($tweet->text);
     $tweet->score+=3*min(30,$tweet->retweet_count);
-    $tweet->score+=30*($tweet->text==strtoupper($tweet->text));
-    $tweet->score+=20*($tweet->text==strtolower($tweet->text));
-    $tweet->score+=30*(strtoupper($tweet->text)==strtolower($tweet->text));
+    $tweet->score+=50*($tweet->text==strtoupper($tweet->text));
+    $tweet->score+=70*($tweet->text==strtolower($tweet->text));
+    $tweet->score+=100*(strtoupper($tweet->text)==strtolower($tweet->text));
     $tweet->score+=10*preg_match('/  /',$tweet->text);
     $tweet->score+=80*preg_match('/stolas/i',$tweet->in_reply_to_screen_name);
     $tweet->score-=180*preg_match('/stolas/i',$tweet->user->screen_name);
@@ -112,17 +114,19 @@ $tweets = array_filter($tweets, function($tweet) {
     $tweet->score+=0.03*min(1000,$tweet->user->favourites_count);
     $tweet->score-=20*$tweet->user->verified;
 
+    $tweet->score*=-1;
+
     foreach($searches as $word) {
         $flag = (($word==strtolower($word))?"i":'');
         if(preg_match("/$word/$flag",$tweet->text) != false) {
             //echo "ACCEPT($word): ", $tweet->text,"\n";
-            $tweet->score+=10;
+            $tweet->score=2*abs($tweet->score);
         }
     }
 
 
     return true;
-    return $tweet->score>-1;
+    return $tweet->score>0;
 });
 
 //print_r($tweets);
@@ -156,7 +160,7 @@ foreach($tweets as $tweet) {
         time()-@$state['users'][$user]>$user_wait_time &&
         time()-$time<$user_wait_time;
 
-    $txt = $magic->generate();
+    $txt = $magic->evolve($tweet->text,$tweet->score*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
     $status = '@'. $user." $txt";
 
     $params['status']=$status;
@@ -173,7 +177,7 @@ foreach($tweets as $tweet) {
 
     file_put_contents("$path/STATE",json_encode($state));
 
-    if(/*$allowed&&$yes&&*/$considerable) {
+    if(true/*&&$allowed&&$yes&&$considerable*/) {
         echo "DIFF=$difficulty,SCORE={$tweet->score},CONSIDER=$considerable,YES=$yes,ALLOW=$allowed\n";
         echo $tweet->user->screen_name, ":: ", $tweet->text,"\n";
         echo $status,"\n\n";

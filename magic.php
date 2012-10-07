@@ -776,4 +776,27 @@ class Magic
 
         return trim($strReturn);
     }
+
+    public function evolve($input, $rounds = 1)
+    {
+        $output= '';
+        $score = -1000;
+        $rounds=max(1,$rounds);
+
+        //echo "EVOLVE($rounds): $input = ";
+
+        $input_set=soundex_collect($input);
+
+        for($i=0;$i<$rounds;$i++) {
+            $newstr = $this->generate();
+            $newset=soundex_collect($newstr);
+            $newscore = 12.3*count(array_intersect($newset,$input_set)) -2*(strlen($newstr)>70) -6*(strlen($newstr)>130) +2*(strlen($newstr)>30);
+            if($newscore>$score) {
+                $score=$newscore;
+                $output=$newstr;
+            }
+        }
+
+        return $output;
+    }
 }
