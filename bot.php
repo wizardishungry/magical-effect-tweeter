@@ -9,6 +9,14 @@ $path = dirname(__FILE__);
 $flags=FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES;
 $searches  = file("$path/whitelist.txt",$flags);
 $bad_words = file("$path/blacklist.txt",$flags);
+$soundexs= array_map(function($e){
+    if(strlen($e)<5) return;
+    if(preg_match('/\W/',$e))
+        return false;
+    $v = soundex(soundex_prepare($e,' '));
+    return ($v ? $v : false);
+},$searches);
+$soundexs=array_unique($soundexs);
 
 $one_day=86400;
 $user_wait_time = 7*$one_day; // time before responding to user again
@@ -37,23 +45,23 @@ $tweets = $twitter->get('statuses/friends_timeline',array('count' => 140));
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
 foreach($mentions as $mention) {
-    if(@$consider[$mention->user->screen_name] < strtotime($mention->created_at) && time()-@$consider[$mention->user->screen_name]>$one_day)
+    if(@$consider[$mention->user->screen_name] < strtotime($mention->created_at))
     {
         //echo "unsetting ",$mention->user->screen_name,"\n";
-        $consider[$mention->user->screen_name]=0;
+        $state['users'][$mention->user->screen_name]=0;
     }
 }
 
 
 $tweets = array_filter($tweets, function($tweet) {
-    global $bad_words, $searches;
+    global $bad_words, $searches, $soundexs;
 
     $tweet->score=0;
 
 
     foreach($bad_words as $word) {
         $flag = (($word==strtolower($word))?"i":'');
-        if(preg_match("/$word/$flag",$tweet->text) != false) {
+        if(preg_match("/\s*#?$word\s*/$flag",$tweet->text) != false) {
             //echo "REJECT($word): ", $tweet->text,"\n";
             $tweet->score-=250;
             return false;
@@ -73,18 +81,20 @@ $tweets = array_filter($tweets, function($tweet) {
     $tweet->score+=100*(strtoupper($tweet->text)==strtolower($tweet->text));
     $tweet->score+=10*preg_match('/  /',$tweet->text);
     $tweet->score+=800*preg_match('/stolas/i',$tweet->in_reply_to_screen_name);
-    $tweet->score-=180*preg_match('/stolas/i',$tweet->user->screen_name);
+    $tweet->score-=1800*preg_match('/stolas/i',$tweet->user->screen_name);
     $tweet->score+=40*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
-    $tweet->score+=30*($tweet->source!='web');
+    $tweet->score+=130*($tweet->source!='web');
     $tweet->score+=0.003*min(10000,$tweet->user->statuses_count);
     $tweet->score+=0.03*min(1000,$tweet->user->favourites_count);
     $tweet->score-=20*$tweet->user->verified;
+    $tweet->score+=15*count(array_intersect($soundexs,soundex_collect($tweet->text)));
+    //echo "soundex count: ", count(array_intersect($soundexs,soundex_collect($tweet->text))),"\n";
 
     $ok = 0;
 
     foreach($searches as $word) {
         $flag = (($word==strtolower($word))?"i":'');
-        if(preg_match("/$word/$flag",$tweet->text) != false) {
+        if(preg_match("/\s*#?$word\s*/",$tweet->text) != false) {
             //echo "ACCEPT($word): ", $tweet->text,"\n";
             $tweet->score+=$ok?50:200;
             if($ok>4) {
@@ -97,7 +107,7 @@ $tweets = array_filter($tweets, function($tweet) {
     }
 
 
-    return $ok>0 || $tweet->score > 100;
+    return $ok>0 || $tweet->score > 300;
     return $tweet->score>0;
 });
 

@@ -289,7 +289,7 @@ Art Bell
 
 wizard
 shaman
-king
+King
 prince
 duke
 demon
@@ -2133,7 +2133,6 @@ Fidi Mukullu
 Fon
 Gleti
 Gonzuole
-G
 Gua
 Gulu
 Gunab
