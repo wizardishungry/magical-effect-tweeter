@@ -26,8 +26,9 @@ class OutfitBot
         $used = array();
         foreach($tweets as $tweet) {
             foreach($this->patterns as $pattern) {
-                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("@$pattern@i",$tweet->text)) {
+                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("@\s*$pattern\s*@i",$tweet->text)) {
                     $used[$tweet->text]=$tweet;
+                    //echo $tweet->text,"\n";
                 }
             }
         }
@@ -42,9 +43,8 @@ class OutfitBot
                     'in_reply_to_status_id'=>$tweet->id_str,
                     'status'=>$status,
                 );
-                echo "$time\n";
                 if(strlen($params['status'])<=140) {
-                //    $this->twitter->post('statuses/update', $params);
+                    $this->twitter->post('statuses/update', $params);
                     $state[$user]=$time;
                 }
             }

@@ -111,16 +111,15 @@ $tweets = array_filter($tweets_o, function($tweet) {
     return $tweet->score>0;
 });
 
-
 $used=$outfit_bot->execute($tweets_o);
 $state['outfit'] = $outfit_bot->state;
 file_put_contents("$path/STATE",json_encode($state));
-
 
 $time_parts=localtime(time(),true);
 $yes=false;
 $allowed=false;
 
+echo "loop\n";
 foreach($tweets as $tweet) {
     if(in_array($tweet,$used)) break;
 
@@ -174,3 +173,4 @@ foreach($tweets as $tweet) {
 }
 $state['consider']=$consider;
 file_put_contents("$path/STATE",json_encode($state));
+echo "done\n";
