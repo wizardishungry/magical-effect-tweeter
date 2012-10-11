@@ -3,6 +3,7 @@ require_once('twitteroauth/twitteroauth/twitteroauth.php');
 require_once('config.php');
 require_once('magic.php');
 require_once('lib.php');
+require_once('outfit_bot.php');
 
 $path = dirname(__FILE__);
 
@@ -30,30 +31,29 @@ if(!$state) {
         'time'=>0,
         'users'=>array(),
         'consider'=>array(),
+        'outfit'=>array(),
     );
 }
 $consider=$state['consider'];
 
 $magic = new Magic();
 $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-
-
+$outfit_bot = new OutfitBot(@$state['outfit'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
-$tweets = $twitter->get('statuses/friends_timeline',array('count' => 140));
+$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 140));
 
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
 foreach($mentions as $mention) {
-    if(@$consider[$mention->user->screen_name] < strtotime($mention->created_at))
-    {
+    if(strtotime($mention->created_at) - @$state['users'][$mention->user->screen_name] > $one_day) {
         //echo "unsetting ",$mention->user->screen_name,"\n";
         $state['users'][$mention->user->screen_name]=0;
     }
 }
 
 
-$tweets = array_filter($tweets, function($tweet) {
+$tweets = array_filter($tweets_o, function($tweet) {
     global $bad_words, $searches, $soundexs;
 
     $tweet->score=0;
@@ -112,7 +112,11 @@ $tweets = array_filter($tweets, function($tweet) {
 });
 
 
-$used=array();
+$used=$outfit_bot->execute($tweets_o);
+$state['outfit'] = $outfit_bot->state;
+file_put_contents("$path/STATE",json_encode($state));
+
+
 $time_parts=localtime(time(),true);
 $yes=false;
 $allowed=false;
@@ -164,7 +168,7 @@ foreach($tweets as $tweet) {
         echo $status,"\n\n";
         //sleep(rand(60,120));
     }
-    if($yes&&$allowed)
+    if($yes&&$allowed&&$considerable)
         sleep(5);
 
 }
