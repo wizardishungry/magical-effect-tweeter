@@ -9,7 +9,7 @@ class OutfitBot
     protected $patterns = array(
         'should i wear',
         'do i wear',
-        "i'm wearing",
+        "i'?m wearing",
         "Taken with Instagram",
     );
 
