@@ -6,17 +6,16 @@ class OutfitBot
 
     const INTERVAL = 86400;
 
-    protected $patterns = array(
-        'should i wear',
-        'do i wear',
-        "i'?m wearing",
-        "Taken with Instagram",
-    );
+    protected $patterns;
 
     public function __construct($state,$twitter)
     {
         $this->state = $state;
         $this->twitter = $twitter;
+        $path = dirname(__FILE__);
+        $flags=FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES;
+        $this->patterns = file("$path/outfit.txt",$flags);
+
     }
 
     public function execute($tweets)
@@ -27,7 +26,7 @@ class OutfitBot
         $used = array();
         foreach($tweets as $tweet) {
             foreach($this->patterns as $pattern) {
-                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("/$pattern/i",$tweet->text)) {
+                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("@$pattern@i",$tweet->text)) {
                     $used[$tweet->text]=$tweet;
                 }
             }
@@ -43,8 +42,9 @@ class OutfitBot
                     'in_reply_to_status_id'=>$tweet->id_str,
                     'status'=>$status,
                 );
+                echo "$time\n";
                 if(strlen($params['status'])<=140) {
-                    $this->twitter->post('statuses/update', $params);
+                //    $this->twitter->post('statuses/update', $params);
                     $state[$user]=$time;
                 }
             }
