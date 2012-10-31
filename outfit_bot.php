@@ -15,7 +15,7 @@ class OutfitBot
         $path = dirname(__FILE__);
         $flags=FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES;
         $this->patterns = file("$path/outfit.txt",$flags);
-
+        $this->path=$path;
     }
 
     public function execute($tweets)
@@ -36,6 +36,12 @@ class OutfitBot
         foreach($used as $tweet) {
             $txt = $outfit->generate();
             $user=$tweet->user->screen_name;
+            $path=$this->path;
+            if(preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
+                $escaped = escapeshellarg($txt);
+                $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
+            }
+
             $status = '@'. $user." $txt";
             $time = strtotime($tweet->created_at);
             if($time-@$state[$user]>static::INTERVAL) {
