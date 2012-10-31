@@ -20,7 +20,7 @@ $soundexs= array_map(function($e){
 $soundexs=array_unique($soundexs);
 
 $one_day=86400;
-$user_wait_time = 7*$one_day; // time before responding to user again
+$user_wait_time = 2*7*$one_day; // time before responding to user again
 
 /////////////////////////////////////////////////////////////////////////////////////////
 date_default_timezone_set('America/New_York');
@@ -41,7 +41,7 @@ $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_
 $outfit_bot = new OutfitBot(@$state['outfit'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
-$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 140));
+$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 1400));
 
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
@@ -107,7 +107,7 @@ $tweets = array_filter($tweets_o, function($tweet) {
     }
 
 
-    return $ok>0 || $tweet->score > 300;
+    return $ok>0 || $tweet->score > 100; // lowered from 300 for halloween
     return $tweet->score>0;
 });
 
@@ -119,7 +119,6 @@ $time_parts=localtime(time(),true);
 $yes=false;
 $allowed=false;
 
-echo "loop\n";
 foreach($tweets as $tweet) {
     if(in_array($tweet,$used)) break;
 
@@ -136,6 +135,8 @@ foreach($tweets as $tweet) {
         -  100 *( time() - $time <= 300 ) // be more likely if the tweet was in last 5 min
         +  550 *( !in_array($time_parts['tm_wday'],array(0,6)) && in_array($time_parts['tm_hour'],range(6,20)) ) // be more difficult during work week
         -  350 *( in_array($time_parts['tm_hour'],range(0,4)) ) // more late night
+        -  700 *( $time_parts["tm_mon"] == 11 && $time_parts['tm_mday'] == 1  )
+        -  700 *( $time_parts["tm_mon"] == 10 && $time_parts['tm_mday'] >= 29  )
     ;
     $yes=$tweet->score > rand(0,$difficulty);
 
@@ -177,4 +178,3 @@ foreach($tweets as $tweet) {
 }
 $state['consider']=$consider;
 file_put_contents("$path/STATE",json_encode($state));
-echo "done\n";

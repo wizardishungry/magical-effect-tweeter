@@ -20,7 +20,7 @@ abstract class Base
         {
             $intReturn=rand(0,count($this->aItemCodes)-1);
 
-            if ((@$this->aItemCodes[$intReturn]  &  $intCheckNumber)==$intCheckNumber)
+            if (($this->aItemCodes[$intReturn]  &  $intCheckNumber)==$intCheckNumber)
             {
                 $bEnd=true;
             }

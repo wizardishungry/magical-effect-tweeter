@@ -26,9 +26,9 @@ class OutfitBot
         $used = array();
         foreach($tweets as $tweet) {
             foreach($this->patterns as $pattern) {
-                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("@\s*$pattern\s*@i",$tweet->text)) {
+                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("@ +$pattern +@i",$tweet->text)) {
                     $used[$tweet->text]=$tweet;
-                    //echo $tweet->text,"\n";
+                    echo $pattern," ^  ",$tweet->text,"\n";
                 }
             }
         }

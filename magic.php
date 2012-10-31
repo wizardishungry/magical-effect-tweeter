@@ -267,7 +267,7 @@ class Magic extends Base
         $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="All of your limbs";
         $aItemCodes[$iCounter++]=4;
-        $aItemWords[$iCounter]="ALL OF YOUR EYES";
+        $aItemWords[$iCounter]="All of your eyes";
         $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="Your teeth";
         $aItemCodes[$iCounter++]=4;
@@ -300,7 +300,7 @@ class Magic extends Base
         $aItemCodes[$iCounter++]=8;
         $aItemWords[$iCounter]="The moon is full in the sky";
         $aItemCodes[$iCounter++]=8;
-        $aItemWords[$iCounter]="An apocalyptic flaming hailstorn rends the land";
+        $aItemWords[$iCounter]="An apocalyptic flaming hailstorm rends the land";
         $aItemCodes[$iCounter++]=8;
         $aItemWords[$iCounter]="The temperature drops by 40 degrees F";
         $aItemCodes[$iCounter++]=8;
