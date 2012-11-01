@@ -107,7 +107,7 @@ $tweets = array_filter($tweets_o, function($tweet) {
     }
 
 
-    return $ok>0 || $tweet->score > 100; // lowered from 300 for halloween
+    return $ok>0 || $tweet->score > 300;
     return $tweet->score>0;
 });
 
