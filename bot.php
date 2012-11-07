@@ -82,6 +82,7 @@ $tweets = array_filter($tweets_o, function($tweet) {
     $tweet->score+=10*preg_match('/  /',$tweet->text);
     $tweet->score+=800*preg_match('/stolas/i',$tweet->in_reply_to_screen_name);
     $tweet->score-=1800*preg_match('/stolas/i',$tweet->user->screen_name);
+    $tweet->score+=1800*preg_match('/Waffen_SS/i',$tweet->user->screen_name);
     $tweet->score+=40*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
     $tweet->score+=130*($tweet->source!='web');
     $tweet->score+=0.003*min(10000,$tweet->user->statuses_count);
