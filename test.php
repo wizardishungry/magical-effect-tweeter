@@ -17,4 +17,4 @@ set_error_handler(function() { print_r(debug_backtrace()); exit; });
 echo $o->generate(),"\n";
 echo $s->generate(true),"\n";
 //echo $s->getImage('simpsons'),"\n";
-echo $p->generate(),"\n";
+echo $p->generate(true),"\n";

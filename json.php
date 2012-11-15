@@ -32,7 +32,7 @@ class Json
     }
     protected function score($max_length,$string)
     {
-        return($max_length-strlen($string));
+        return $max_length-strlen($string) + 5 * preg_match_all('/\d+/',$string,$matches);
     }
 
     protected function trim($string,$max_length)

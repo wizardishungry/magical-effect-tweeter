@@ -18,12 +18,12 @@ class PlantBot
     {
         $state = $this->state;
         $parts = getdate();
-        $count=rand(-5,1);
-        if(time()-$this->state>self::INTERVAL && ($parts['hours']>=11&&$parts['hours']<=18)) {
+        $count=rand(-2,1);
+        if(time()-$this->state>self::INTERVAL && ($parts['hours']>=8&&$parts['hours']<=18)) {
             echo "in pl loop\n";
             $plant = new Plant();
             for($i=$count;$i>0;$i--){
-                $str = $plant->generate(!rand(0,5));
+                $str = $plant->generate(!rand(0,1));
                 echo "Plant $i $str\n";
                 $params = array(
                     'status'=>$str,

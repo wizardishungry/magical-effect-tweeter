@@ -40,7 +40,7 @@ class Stellar extends Json
         if($withImage) {
             $image = $this->getImage($names[array_rand($names)]);
             if($image)
-                $max = 125;
+                $max = 119;
         }
 
         $poe = preg_replace("/^$name /", '', $poe);
