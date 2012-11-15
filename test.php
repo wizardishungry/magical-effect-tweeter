@@ -15,5 +15,6 @@ $st =  $m->evolve("up next: Dancin on theer snake and over until somebody makes 
 //echo $st," ",strlen($s),"\n";
 set_error_handler(function() { print_r(debug_backtrace()); exit; });
 echo $o->generate(),"\n";
-echo $s->generate(),"\n";
+echo $s->generate(true),"\n";
+//echo $s->getImage('simpsons'),"\n";
 echo $p->generate(),"\n";

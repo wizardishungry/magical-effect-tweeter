@@ -19,17 +19,18 @@ class PlantBot
         $state = $this->state;
         $parts = getdate();
         $count=rand(-5,1);
-        if(time()-$state>self::INTERVAL && ($parts['hours']>11||$parts['hours']<6)) {
+        if(time()-$this->state>self::INTERVAL && ($parts['hours']>=11&&$parts['hours']<=18)) {
+            echo "in pl loop\n";
             $plant = new Plant();
             for($i=$count;$i>0;$i--){
-                $str = $plant->generate();
+                $str = $plant->generate(!rand(0,5));
                 echo "Plant $i $str\n";
                 $params = array(
                     'status'=>$str,
                 );
                 $this->twitter->post('statuses/update', $params);
-                $state=time();
             }
+            $state=time();
         }
         $this->state=$state;
     }

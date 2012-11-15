@@ -19,16 +19,16 @@ class StellarBot
         $state = $this->state;
         $parts = getdate();
         $count=rand(-5,3);
-        if(time()-$state>self::INTERVAL && ($parts['hours']<7||$parts['hours']>11)) {
+        $state=time();
+        if(time()-$this->state>self::INTERVAL && ($parts['hours']<7||$parts['hours']>=23)) {
             $stellar = new Stellar();
             for($i=$count;$i>0;$i--){
-                $str = $stellar->generate();
+                $str = $stellar->generate(!rand(0,2));
                 echo "STELLAR $i $str\n";
                 $params = array(
                     'status'=>$str,
                 );
                 $this->twitter->post('statuses/update', $params);
-                $state=time();
                 if($count>0)
                     $state+=.25*3600*$count;
             }

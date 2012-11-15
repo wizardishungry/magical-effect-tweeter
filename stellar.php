@@ -18,10 +18,11 @@ class Stellar extends Json
         $this->ok=true;
     }
 
-    public function generate()
+    public function generate($withImage=false)
     {
         if(!$this->ok) return;
         $star = $this->seek();
+        $max=140;
 
         $poe = $star['points_of_interest'];
         foreach(array_rand($star,rand(2,min(2,count($star)))) as $key) {
@@ -33,10 +34,14 @@ class Stellar extends Json
         $names = array();
         if(isset($star['catalog_numbers'])) $names = $star['catalog_numbers'];
         $poe .= ' '. $names[array_rand($names)];
-        $names[] = $star['name'];
-        $names[] = $star['name'];
-        $names[] = $star['name'];
+        foreach(range(1,5) as $_) $names[] = $star['name'];
         $name = $names[array_rand($names)];
+        foreach(range(1,130) as $_) $names[] = $star['name'];
+        if($withImage) {
+            $image = $this->getImage($names[array_rand($names)]);
+            if($image)
+                $max = 125;
+        }
 
         $poe = preg_replace("/^$name /", '', $poe);
         $poe = preg_replace("/^{$star['name']} /", '', $poe);
@@ -45,11 +50,13 @@ class Stellar extends Json
         //print_r($star);exit;
 
         $poe= preg_replace('/ and /', ' & ',$poe);
-        $str.=$this->factoid($poe,140-strlen($str));
+        $str.=$this->factoid($poe,$max-strlen($str));
         $str = preg_replace('/  /', ' ',$str);
         $str = preg_replace('/ [.]/', ' .',$str);
         $str = preg_replace('/ [,]/', ' ,',$str);
         $str= preg_replace('/ and /', ' & ',$str);
+        if(isset($image))
+            $str .= " $image";
         return $str;
     }
 

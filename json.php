@@ -56,4 +56,17 @@ class Json
         }
         return $sentences;
     }
+
+    public function getImage($string) {
+        $images = $this->getImages($string);
+        shuffle($images);
+        if(count($images))
+            return $images[0];
+    }
+    public function getImages($string) {
+        $u=urlencode($string);
+        $images=`lynx -dump 'https://www.google.com/search?q=$u&hl=en&safe=off&tbo=d&authuser=0&biw=2031&bih=1245&source=lnms&tbm=isch&sa=X&ei=zZCkUIu_Lo-zhAfrroHQBQ&sqi=2&ved=0CAQQ_AUoAA' | grep imgurl=| sed 's/.*imgurl=//'  | sed 's/\&.*//' | grep '\....$' `;
+        $images=explode("\n",$images);
+        return $images;
+    }
 }
