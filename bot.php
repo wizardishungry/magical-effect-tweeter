@@ -147,7 +147,7 @@ foreach($tweets as $tweet) {
         time()-$time<$user_wait_time;
 
     $txt = $magic->evolve($tweet->text,$tweet->score*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
-    if(preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
+    if(false && preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
     }

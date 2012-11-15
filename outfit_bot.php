@@ -37,7 +37,7 @@ class OutfitBot
             $txt = $outfit->generate();
             $user=$tweet->user->screen_name;
             $path=$this->path;
-            if(preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
+            if(false && preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
                 $escaped = escapeshellarg($txt);
                 $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
             }
