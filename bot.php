@@ -5,6 +5,7 @@ require_once('magic.php');
 require_once('lib.php');
 require_once('outfit_bot.php');
 require_once('stellar_bot.php');
+require_once('plant_bot.php');
 
 $path = dirname(__FILE__);
 
@@ -34,6 +35,7 @@ if(!$state) {
         'consider'=>array(),
         'outfit'=>array(),
         'stellar'=>0,
+        'plant'=>0,
     );
 }
 $consider=$state['consider'];
@@ -42,6 +44,7 @@ $magic = new Magic();
 $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
 $outfit_bot = new OutfitBot(@$state['outfit'],$twitter);
 $stellar_bot = new StellarBot(@$state['stellar'],$twitter);
+$plant_bot = new PlantBot(@$state['plant'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
 $tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 1400));
@@ -121,6 +124,10 @@ file_put_contents("$path/STATE",json_encode($state));
 
 $stellar_bot->execute();
 $state['stellar'] = $stellar_bot->state;
+file_put_contents("$path/STATE",json_encode($state));
+
+$plant_bot->execute();
+$state['plant'] = $plant_bot->state;
 file_put_contents("$path/STATE",json_encode($state));
 
 $time_parts=localtime(time(),true);
