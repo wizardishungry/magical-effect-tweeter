@@ -17,6 +17,7 @@ class AstroBot
     public function execute()
     {
         $state = $this->state;
+        $astro = new Astro();
         if(time() > date_sunset(time(),SUNFUNCS_RET_TIMESTAMP) && time()-$state > 0.75*self::INTERVAL) {
             $strings = $astro->generate();
             foreach($strings as $str) {
