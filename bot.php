@@ -49,7 +49,6 @@ $plant_bot = new PlantBot(@$state['plant'],$twitter);
 $twitter->host = "https://api.twitter.com/1/";
 $tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 1400));
 
-
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
 foreach($mentions as $mention) {
     if(strtotime($mention->created_at) - @$state['users'][$mention->user->screen_name] > $one_day) {
@@ -142,14 +141,14 @@ foreach($tweets as $tweet) {
     $considerable=($time>@$state['consider'][$user]);
     $consider[$user]=max($time,@$consider[$user]);
 
-    $difficulty = 1000
-        + 2250 *( !@$state['consider'][$user] ) // be much less likely with new tweeters
+    $difficulty = 1500
+        + 1250 *( !@$state['consider'][$user] ) // be much less likely with new tweeters
         +  250 *( $yes&&$allowed ) // be less likely with sequential tweets
         -  200 *( time() - $state['time'] > $user_wait_time ) // be more likely if we havent succeeded in a while
         -  150 *( time() - $time <= 60 ) // be more likely if the tweet was in last 60 seconds
         -  100 *( time() - $time <= 300 ) // be more likely if the tweet was in last 5 min
         +  550 *( !in_array($time_parts['tm_wday'],array(0,6)) && in_array($time_parts['tm_hour'],range(6,20)) ) // be more difficult during work week
-        -  350 *( in_array($time_parts['tm_hour'],range(0,4)) ) // more late night
+        -  750 *( in_array($time_parts['tm_hour'],range(0,4)) ) // more late night
         -  700 *( $time_parts["tm_mon"] == 11 && $time_parts['tm_mday'] == 1  )
         -  700 *( $time_parts["tm_mon"] == 10 && $time_parts['tm_mday'] >= 29  )
     ;

@@ -6,7 +6,7 @@ class StellarBot
 
     protected $twitter;
 
-    const INTERVAL = 3600;
+    const INTERVAL = 7200;
 
     public function __construct($state,$twitter)
     {
@@ -19,8 +19,8 @@ class StellarBot
         $state = $this->state;
         $parts = getdate();
         $count=rand(-5,3);
-        $state=time();
-        if(time()-$this->state>self::INTERVAL && ($parts['hours']<7||$parts['hours']>=23)) {
+        if(time()-$this->state>self::INTERVAL && ($parts['hours']<7||$parts['hours']>=22)) {
+            $state=time();
             $stellar = new Stellar();
             for($i=$count;$i>0;$i--){
                 $str = $stellar->generate(!rand(0,2));

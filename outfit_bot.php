@@ -5,6 +5,7 @@ class OutfitBot
     public $state;
 
     const INTERVAL = 86400;
+    //const INTERVAL = 604800; // one week
 
     protected $patterns;
 
@@ -26,9 +27,9 @@ class OutfitBot
         $used = array();
         foreach($tweets as $tweet) {
             foreach($this->patterns as $pattern) {
-                if($tweet->score >= 0 && $tweet->score < 300 && preg_match("@ +$pattern +@i",$tweet->text)) {
+                if($tweet->score >= 0 && $tweet->score > 100 && !rand(0,10) && preg_match("@ +$pattern +@i",$tweet->text)) {
                     $used[$tweet->text]=$tweet;
-                    echo $pattern," ^  ",$tweet->text,"\n";
+                    echo $pattern," ^ {$tweet->score} ",$tweet->text,"\n";
                 }
             }
         }
