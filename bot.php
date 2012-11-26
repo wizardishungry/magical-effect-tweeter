@@ -5,6 +5,7 @@ require_once('magic.php');
 require_once('lib.php');
 require_once('outfit_bot.php');
 require_once('stellar_bot.php');
+require_once('astro_bot.php');
 require_once('plant_bot.php');
 
 $path = dirname(__FILE__);
@@ -35,6 +36,7 @@ if(!$state) {
         'consider'=>array(),
         'outfit'=>array(),
         'stellar'=>0,
+        'astro'=>0,
         'plant'=>0,
     );
 }
@@ -44,6 +46,7 @@ $magic = new Magic();
 $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
 $outfit_bot = new OutfitBot(@$state['outfit'],$twitter);
 $stellar_bot = new StellarBot(@$state['stellar'],$twitter);
+$astro_bot = new AstroBot(@$state['astro'],$twitter);
 $plant_bot = new PlantBot(@$state['plant'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
@@ -88,7 +91,7 @@ $tweets = array_filter($tweets_o, function($tweet) {
     $tweet->score+=800*preg_match('/stolas/i',$tweet->in_reply_to_screen_name);
     $tweet->score-=1800*preg_match('/stolas/i',$tweet->user->screen_name);
     $tweet->score+=1800*preg_match('/Waffen_SS/i',$tweet->user->screen_name);
-    $tweet->score+=40*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
+    $tweet->score+=240*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
     $tweet->score+=130*($tweet->source!='web');
     $tweet->score+=0.003*min(10000,$tweet->user->statuses_count);
     $tweet->score+=0.03*min(1000,$tweet->user->favourites_count);
@@ -123,6 +126,10 @@ file_put_contents("$path/STATE",json_encode($state));
 
 $stellar_bot->execute();
 $state['stellar'] = $stellar_bot->state;
+file_put_contents("$path/STATE",json_encode($state));
+
+$astro_bot->execute();
+$state['astro'] = $astro_bot->state;
 file_put_contents("$path/STATE",json_encode($state));
 
 $plant_bot->execute();

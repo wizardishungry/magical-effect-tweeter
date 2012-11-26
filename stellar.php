@@ -70,4 +70,16 @@ class Stellar extends Json
         return;
     }
 
+    public function getSAO($num) {
+        foreach($this->json as $star) {
+            if(isset($star['catalog_numbers'])) {
+                foreach($star['catalog_numbers'] as $str) {
+                    if(preg_match("/SAO.* $num\$/",$str)) {
+                        return $star['name'];
+                    }
+                }
+            }
+        }
+    }
+
 }
