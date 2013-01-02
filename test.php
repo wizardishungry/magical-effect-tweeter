@@ -14,10 +14,12 @@ $a = new Astro();
 $p = new Plant();
 
 print_r($a->generate());
-$st =  $m->evolve("up next: Dancin on theer snake and over until somebody makes me stop",0);
-//echo $st," ",strlen($s),"\n";
+$st =  $m->evolve("up next: Dancin on theer snake and over until somebody makes me stop",10000);
+echo $st," ",strlen($st),"\n";
 set_error_handler(function() { print_r(debug_backtrace()); exit; });
 echo $o->generate(),"\n";
 echo $s->generate(true),"\n";
 //echo $s->getImage('simpsons'),"\n";
+
 echo $p->generate(true),"\n";
+print_r($p->generate_a(true));

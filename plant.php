@@ -13,7 +13,7 @@ class Plant extends Json
 
     public function generate($withImage=false)
     {
-        $max = 140;
+        $max = 500;
         $path=$this->path;
         $files = glob("$path/*.json");
         $idx = array_rand($files);
@@ -48,7 +48,7 @@ class Plant extends Json
         if($withImage) {
             $image = $this->getImage($names[array_rand($names)]);
             if($image)
-                $max = 119;
+                $max -= 21;
         }
 
 
@@ -67,6 +67,24 @@ class Plant extends Json
             $str .= " $image";
         return $str;
     }
+
+    public function generate_a($withImage=false)
+    {
+        $str = $this->generate($withImage);
+        $max = 140;
+        $words = explode(' ',$str);
+        $result = array();
+        while(!empty($words)) {
+            $line = '';
+            while($words && strlen($line." ".reset($words))<$max) {
+                $line=$line.' '.array_shift($words);
+            }
+            array_push($result,$line);
+        }
+
+        return $result;
+    }
+
 
     protected function score($max_length,$string)
     {

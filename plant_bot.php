@@ -23,12 +23,16 @@ class PlantBot
             echo "in pl loop\n";
             $plant = new Plant();
             for($i=$count;$i>0;$i--){
-                $str = $plant->generate(!rand(0,1));
-                echo "Plant $i $str\n";
-                $params = array(
-                    'status'=>$str,
-                );
-                $this->twitter->post('statuses/update', $params);
+                $array = $plant->generate_a(!rand(0,1));
+                foreach($array as $str) {
+                    echo "Plant $str\n";
+                    $params = array(
+                        'status'=>$str,
+                    );
+                    if(!preg_match('/^http/',$str))
+                        $this->twitter->post('statuses/update', $params);
+                    sleep(5);
+                }
             }
             $state=time();
         }
