@@ -79,9 +79,10 @@ $tweets = array_filter($tweets_o, function($tweet) {
 
     $time = strtotime($tweet->created_at);
 
-    if($tweet->retweeted) $tweet->score-=20;
-    if(!$tweet->user->following) $tweet->score-=250;
-    if($tweet->in_reply_to_screen_name) $tweet->score-=100;
+    if($tweet->retweeted) $tweet->score+=220;
+    if(!$tweet->user->following) $tweet->score+=250;
+    if($tweet->in_reply_to_screen_name) $tweet->score+=100;
+
     $tweet->score+=300*palindrome($tweet->text);
     $tweet->score+=3*min(30,$tweet->retweet_count);
     $tweet->score+=50*($tweet->text==strtoupper($tweet->text));
@@ -93,8 +94,14 @@ $tweets = array_filter($tweets_o, function($tweet) {
     $tweet->score+=1800*preg_match('/Waffen_SS/i',$tweet->user->screen_name);
     $tweet->score+=240*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
     $tweet->score+=130*($tweet->source!='web');
+
+    /*
     $tweet->score+=0.003*min(10000,$tweet->user->statuses_count);
     $tweet->score+=0.03*min(1000,$tweet->user->favourites_count);
+    */
+    $tweet->score+=30*min(10000,$tweet->user->statuses_count);
+    $tweet->score+=30*min(1000,$tweet->user->favourites_count);
+
     $tweet->score-=20*$tweet->user->verified;
     $tweet->score+=15*count(array_intersect($soundexs,soundex_collect($tweet->text)));
     //echo "soundex count: ", count(array_intersect($soundexs,soundex_collect($tweet->text))),"\n";
@@ -158,6 +165,8 @@ foreach($tweets as $tweet) {
         -  750 *( in_array($time_parts['tm_hour'],range(0,4)) ) // more late night
         -  700 *( $time_parts["tm_mon"] == 11 && $time_parts['tm_mday'] == 1  )
         -  700 *( $time_parts["tm_mon"] == 10 && $time_parts['tm_mday'] >= 29  )
+        -  1700 *( $time_parts["tm_mon"] == 12 && $time_parts['tm_mday'] >= 21  ) // 2012
+    ;
     ;
     $yes=$tweet->score > rand(0,$difficulty);
 
@@ -166,8 +175,8 @@ foreach($tweets as $tweet) {
         time()-@$state['users'][$user]>$user_wait_time &&
         time()-$time<$user_wait_time;
 
-    $txt = $magic->evolve($tweet->text,$tweet->score*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
-    if(false && preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
+    $txt = $magic->evolve($tweet->text,min(1000*$tweet->score,10000)*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
+    if(preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
     }
