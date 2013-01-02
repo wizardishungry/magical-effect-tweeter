@@ -19,6 +19,7 @@ echo $st," ",strlen($st),"\n";
 set_error_handler(function() { print_r(debug_backtrace()); exit; });
 echo $o->generate(),"\n";
 echo $s->generate(true),"\n";
+print_r( $s->generate_a(true));
 //echo $s->getImage('simpsons'),"\n";
 
 echo $p->generate(true),"\n";

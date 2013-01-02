@@ -10,6 +10,29 @@ class Json
         $this->path = dirname(__FILE__);
     }
 
+    public function generate_a($withImage=false)
+    {
+        $str = $this->generate($withImage);
+        $max = 140;
+        $words = explode(' ',$str);
+        $result = array();
+        while(!empty($words)) {
+            $line = '';
+            while($words && $this->strlen($line." ".reset($words))<$max) {
+                $line=$line.' '.array_shift($words);
+            }
+            array_push($result,$line);
+        }
+
+        return $result;
+    }
+
+    protected function strlen($str)
+    {
+        $str = preg_replace('@http[^ ]*@','1234567890ab',$str);
+        return strlen($str);
+    }
+
     protected function factoid($string, $max_length)
     {
         $sentences = $this->sentences($string);

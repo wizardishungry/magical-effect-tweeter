@@ -22,7 +22,7 @@ class Stellar extends Json
     {
         if(!$this->ok) return;
         $star = $this->seek();
-        $max=140;
+        $max=1200;
 
         $poe = $star['points_of_interest'];
         foreach(array_rand($star,rand(2,min(2,count($star)))) as $key) {
@@ -40,7 +40,7 @@ class Stellar extends Json
         if($withImage) {
             $image = $this->getImage($names[array_rand($names)]);
             if($image)
-                $max = 119;
+                $max -= 21;
         }
 
         $poe = preg_replace("/^$name /", '', $poe);

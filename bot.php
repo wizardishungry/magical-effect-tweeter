@@ -95,10 +95,6 @@ $tweets = array_filter($tweets_o, function($tweet) {
     $tweet->score+=240*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
     $tweet->score+=130*($tweet->source!='web');
 
-    /*
-    $tweet->score+=0.003*min(10000,$tweet->user->statuses_count);
-    $tweet->score+=0.03*min(1000,$tweet->user->favourites_count);
-    */
     $tweet->score+=30*min(10000,$tweet->user->statuses_count);
     $tweet->score+=30*min(1000,$tweet->user->favourites_count);
 

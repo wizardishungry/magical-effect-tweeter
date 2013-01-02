@@ -18,17 +18,20 @@ class StellarBot
     {
         $state = $this->state;
         $parts = getdate();
-        $count=rand(-5,3);
+        $count=rand(-5,2);
         if(time()-$this->state>self::INTERVAL && ($parts['hours']<7||$parts['hours']>=22)) {
             $state=time();
             $stellar = new Stellar();
             for($i=$count;$i>0;$i--){
-                $str = $stellar->generate(!rand(0,2));
-                echo "STELLAR $i $str\n";
-                $params = array(
-                    'status'=>$str,
-                );
-                $this->twitter->post('statuses/update', $params);
+                $array = $stellar->generate_a(!rand(0,2));
+                foreach($array as $str) {
+                    $params = array(
+                        'status'=>$str,
+                    );
+                    if(!preg_match('/^http/',$str))
+                        $this->twitter->post('statuses/update', $params);
+                    sleep(5);
+                }
                 if($count>0)
                     $state+=.25*3600*$count;
             }

@@ -68,24 +68,6 @@ class Plant extends Json
         return $str;
     }
 
-    public function generate_a($withImage=false)
-    {
-        $str = $this->generate($withImage);
-        $max = 140;
-        $words = explode(' ',$str);
-        $result = array();
-        while(!empty($words)) {
-            $line = '';
-            while($words && strlen($line." ".reset($words))<$max) {
-                $line=$line.' '.array_shift($words);
-            }
-            array_push($result,$line);
-        }
-
-        return $result;
-    }
-
-
     protected function score($max_length,$string)
     {
         return parent::score($max_length,$string)-
