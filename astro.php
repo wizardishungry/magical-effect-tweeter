@@ -17,13 +17,13 @@ class Astro extends Json
     {
         $max=140;
         $str = self::COORDS;
-        $str = `echo $str |astro  -olkc 1 2> /dev/null `;
+        $str = `echo $str |astro  -olkc 1 -C 0.5 2> /dev/null `;
         $rows = explode("\n",$str);
         array_shift($rows);
         array_pop($rows);
         foreach($rows as &$row) {
             $row = str_replace('Twilight starts','Dawn starts',$row);
-            if(preg_match('/SAO (\d+)/',$row,$matches)) {
+            if(FALSE && preg_match('/SAO (\d+)/',$row,$matches)) {
                 $row = null;
             }
         }
