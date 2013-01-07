@@ -4,8 +4,8 @@ class OutfitBot
 {
     public $state;
 
-    const INTERVAL = 86400;
-    //const INTERVAL = 604800; // one week
+    //const INTERVAL = 86400;
+    const INTERVAL = 604800; // one week
 
     protected $patterns;
 

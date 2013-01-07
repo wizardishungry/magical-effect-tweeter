@@ -6,7 +6,7 @@ class StellarBot
 
     protected $twitter;
 
-    const INTERVAL = 7200;
+    const INTERVAL = 3700;
 
     public function __construct($state,$twitter)
     {
