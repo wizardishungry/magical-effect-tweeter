@@ -1,4 +1,4 @@
-<?ph2;
+<?php;
 require_once('base.php');
 class Magic extends Base
 {
