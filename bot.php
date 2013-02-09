@@ -35,6 +35,7 @@ if(!$state) {
         'users'=>array(),
         'consider'=>array(),
         'outfit'=>array(),
+        'alien'=>array(),
         'stellar'=>0,
         'astro'=>0,
         'plant'=>0,
@@ -57,6 +58,9 @@ foreach($mentions as $mention) {
     if(strtotime($mention->created_at) - @$state['users'][$mention->user->screen_name] > $one_day) {
         //echo "unsetting ",$mention->user->screen_name,"\n";
         $state['users'][$mention->user->screen_name]=0;
+    }
+    if(preg_match('/alien/', $mention->text)) {
+        $state['alien'][$mention->user->screen_name]=1;
     }
 }
 
@@ -172,7 +176,7 @@ foreach($tweets as $tweet) {
         time()-$time<$user_wait_time;
 
     $txt = $magic->evolve($tweet->text,min(1000*$tweet->score,10000)*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
-    if(preg_match("/iOS|iPhone|Mac/",$tweet->source)) {
+    if(preg_match("/iOS|iPhone|Mac/",$tweet->source) && !@$state['alien'][$tweet->user->screen_name]) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
     }
