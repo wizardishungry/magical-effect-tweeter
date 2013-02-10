@@ -119,6 +119,20 @@ class Outfit extends Base
         $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="a low, wide neck";
         $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a halter neckline";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a one-shoulder neckline";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a keyhole neckline";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a sweetheart neckline";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a off-the-shoulder neckline";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a one-shoulder neckline";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="a surplice neckline";
+        $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="a heart-shaped neckline";
         $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="a round neck";
@@ -175,6 +189,8 @@ class Outfit extends Base
         $aItemCodes[$iCounter++]=16;
         $aItemWords[$iCounter]="long and slitted";
         $aItemCodes[$iCounter++]=16;
+        $aItemWords[$iCounter]="midriff-baring";
+        $aItemCodes[$iCounter++]=8;
 ;
         $aItemWords[$iCounter]="cotton";
         $aItemCodes[$iCounter++]=32;
@@ -244,6 +260,8 @@ class Outfit extends Base
 
 ;
         $aItemWords[$iCounter]="tight";
+        $aItemCodes[$iCounter++]=64;
+        $aItemWords[$iCounter]="uncomfortably tight";
         $aItemCodes[$iCounter++]=64;
         $aItemWords[$iCounter]="loose";
         $aItemCodes[$iCounter++]=64;

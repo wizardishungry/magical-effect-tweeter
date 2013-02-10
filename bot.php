@@ -45,9 +45,13 @@ if(!$state) {
 $state_prefixes = array('consider','outfit');
 $fun=array(
     "242afec37be317ec2ad26d5f1460488fec7f25c8",
+    "e818445223cfe518f33b892b124af8ddcc2868ff",
     '9803b66e314499c03e90fc34f16c44e687083812',
     '7ef4a0cbb635cbcf82f3923427531060c78f15a6',
     "25e994e9943af36a63b597ea61dc3392215d0d1e",
+    '02162649fee61841d4f60c698e975d5728222b0b',
+    '44431deb70c9183793a264cb692cafd1452b0d6a',
+    '327538e175436c7d697b910631bcc964d84b2643',
     "0655d865738f91fc7747763eac30ccfc8c3dc728",
     "65ff2ea15c6b3255090fe54a5c9a59b095c19903",
     "02162649fee61841d4f60c698e975d5728222b0b",
@@ -93,14 +97,14 @@ foreach($mentions as $mention) {
         //echo "unsetting ",$mention->user->screen_name,"\n";
         $state['users'][$mention->user->screen_name]=0;
     }
-    if(preg_match('/alien/', $mention->text)) {
+    if(preg_match('/alien|skull|boxes|👽|dfkgjjkdfgd/', $mention->text)) {
         $state['alien'][$mention->user->screen_name]=1;
     }
 }
 
 
 $tweets = array_filter($tweets_o, function($tweet) {
-    global $bad_words, $searches, $soundexs;
+    global $bad_words, $searches, $soundexs, $fun;
 
     $tweet->score=0;
 
@@ -129,7 +133,10 @@ $tweets = array_filter($tweets_o, function($tweet) {
     $tweet->score+=10*preg_match('/  /',$tweet->text);
     $tweet->score+=800*preg_match('/stolas/i',$tweet->in_reply_to_screen_name);
     $tweet->score-=1800*preg_match('/stolas/i',$tweet->user->screen_name);
-    $tweet->score+=1800*preg_match('/Waffen_SS/i',$tweet->user->screen_name);
+    $s = sha1($tweet->user->screen_name);
+    if(in_array($s,$fun)) {
+        $tweet->score+=1800;
+    }
     $tweet->score+=240*preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $tweet->text);
     $tweet->score+=130*($tweet->source!='web');
 
