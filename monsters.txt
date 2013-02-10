@@ -145,7 +145,7 @@ blue dragon
 green
 yellow
 stalker
-air
+air elemental
 fire elemental
 earth elemental
 water elemental
@@ -286,17 +286,6 @@ ice devil
 nalfeshnee
 pit fiend
 balrog
-Juiblex
-Yeenoghu
-Orcus
-Geryon
-Dispater
-Baalzebub
-Asmodeus
-Demogorgon
-Death
-Pestilence
-Famine
 mail daemon
 djinni
 sandestin
