@@ -103,6 +103,8 @@ class Magic extends Base
         $aItemCodes[$iCounter++]=1;
         $aItemWords[$iCounter]="You become slowerfooted";
         $aItemCodes[$iCounter++]=1;
+        $aItemWords[$iCounter]="You are filled with yogic energies";
+        $aItemCodes[$iCounter++]=1;
         $aItemWords[$iCounter]="You are filled with arcane energies";
         $aItemCodes[$iCounter++]=1;
         $aItemWords[$iCounter]="You feel your energy drained away";
@@ -259,6 +261,12 @@ class Magic extends Base
         $aItemWords[$iCounter]="lavender";
         $aItemCodes[$iCounter++]=2;
 
+        $aItemWords[$iCounter]="Your eyelashes";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="Your eyelids";
+        $aItemCodes[$iCounter++]=4;
+        $aItemWords[$iCounter]="Your eyebrows";
+        $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="Your eyes";
         $aItemCodes[$iCounter++]=4;
         $aItemWords[$iCounter]="Your wings, if any, both";
@@ -520,6 +528,8 @@ class Magic extends Base
         $aItemCodes[$iCounter++]=128;
         $aItemWords[$iCounter]="you go deaf";
         $aItemCodes[$iCounter++]=128;
+        $aItemWords[$iCounter]="you go mute";
+        $aItemCodes[$iCounter++]=128;
         $aItemWords[$iCounter]="your vision improves";
         $aItemCodes[$iCounter++]=128;
         $aItemWords[$iCounter]="your hearing improves";
@@ -602,6 +612,14 @@ class Magic extends Base
         $aItemCodes[$iCounter++]=128;
         $aItemWords[$iCounter]="you become a plant elemental";
         $aItemCodes[$iCounter++]=128;
+        $aItemWords[$iCounter]="you become an infant";
+        $aItemCodes[$iCounter++]=128;
+        $aItemWords[$iCounter]="everyone in the room becomes an infant";
+        $aItemCodes[$iCounter++]=128;
+        $aItemWords[$iCounter]="you become a toddler";
+        $aItemCodes[$iCounter++]=128;
+        $aItemWords[$iCounter]="everyone in the room becomes a toddler";
+        $aItemCodes[$iCounter++]=128;
         $aItemWords[$iCounter]="you become a child";
         $aItemCodes[$iCounter++]=128;
         $aItemWords[$iCounter]="everyone in the room becomes a child";
@@ -637,6 +655,8 @@ class Magic extends Base
         $aItemCodes[$iCounter++]=256;
         $aItemWords[$iCounter]="begin attacking you";
         $aItemCodes[$iCounter++]=256;
+        $aItemWords[$iCounter]="phase out of this dimension";
+        $aItemCodes[$iCounter++]=256;
         $aItemWords[$iCounter]="explode";
         $aItemCodes[$iCounter++]=256;
         $aItemWords[$iCounter]="scream";
@@ -654,6 +674,8 @@ class Magic extends Base
         $aItemWords[$iCounter]="become feline";
         $aItemCodes[$iCounter++]=256;
         $aItemWords[$iCounter]="become canine";
+        $aItemCodes[$iCounter++]=256;
+        $aItemWords[$iCounter]="become porcine";
         $aItemCodes[$iCounter++]=256;
         $aItemWords[$iCounter]="wrinkle";
         $aItemCodes[$iCounter++]=256;

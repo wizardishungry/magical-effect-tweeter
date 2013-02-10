@@ -93,7 +93,7 @@ foreach($mentions as $mention) {
         //echo "unsetting ",$mention->user->screen_name,"\n";
         $state['users'][$mention->user->screen_name]=0;
     }
-    if(preg_match('/alien/', $mention->text)) {
+    if(preg_match('/alien|skull|boxes/', $mention->text)) {
         $state['alien'][$mention->user->screen_name]=1;
     }
 }
