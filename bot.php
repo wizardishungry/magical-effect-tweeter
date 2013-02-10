@@ -41,6 +41,23 @@ if(!$state) {
         'plant'=>0,
     );
 }
+
+$state_prefixes = array('consider','outfit');
+$fun=array(
+    "242afec37be317ec2ad26d5f1460488fec7f25c8",
+    '9803b66e314499c03e90fc34f16c44e687083812',
+    '7ef4a0cbb635cbcf82f3923427531060c78f15a6',
+);
+foreach($state_prefixes as $prefix) {
+    foreach($state[$prefix] as $user => &$time) {
+        $s = sha1($user);
+        if(in_array($s,$fun)) {
+            $time = 0;
+        }
+    }
+}
+
+
 $consider=$state['consider'];
 
 $magic = new Magic();
