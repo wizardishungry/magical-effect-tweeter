@@ -321,5 +321,22 @@ class Outfit extends Base
         $this->aCheckArray=$aCheckArray;
         $this->aItemWords=$aItemWords;
         $this->aItemCodes=$aItemCodes;
+
+        $this->moreColors();
+    }
+
+    protected function moreColors()
+    {
+        $colors = file(dirname(__FILE__)."/colors.txt",FILE_SKIP_EMPTY_LINES);
+        array_walk($colors, function(&$color) {
+            $color = strtolower($color);
+            $color = preg_replace('/ \(.*/', '', $color);
+            $color = chop($color);
+        });
+        $colors = array_unique($colors);
+        foreach($colors as $color) {
+            $this->aItemWords[] = $color;
+            $this->aItemCodes[] = 1;
+        }
     }
 }

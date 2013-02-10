@@ -98,4 +98,9 @@ abstract class Base
 
         return $output;
     }
+
+    public function __construct()
+    {
+        $this->path = dirname(__FILE__);
+    }
 }
