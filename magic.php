@@ -701,5 +701,21 @@ class Magic extends Base
         $this->aItemWords=$aItemWords;
         $this->aItemCodes=$aItemCodes;
 
+        $this->moreColors(2);
+        $this->moreMonsters(1);
+    }
+    protected function moreMonsters($idx)
+    {
+        $monsters = file(dirname(__FILE__)."/monsters.txt",FILE_SKIP_EMPTY_LINES);
+        array_walk($monsters, function(&$monster) {
+            $monster = strtolower($monster);
+            $monster = chop($monster);
+            $monster = "You turn into a $monster";
+        });
+        $monsters = array_unique($monsters);
+        foreach($monsters as $monster) {
+            $this->aItemWords[] = $monster;
+            $this->aItemCodes[] = $idx;
+        }
     }
 }

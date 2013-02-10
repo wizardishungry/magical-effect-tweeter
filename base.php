@@ -103,4 +103,19 @@ abstract class Base
     {
         $this->path = dirname(__FILE__);
     }
+
+    protected function moreColors($idx)
+    {
+        $colors = file(dirname(__FILE__)."/colors.txt",FILE_SKIP_EMPTY_LINES);
+        array_walk($colors, function(&$color) {
+            $color = strtolower($color);
+            $color = preg_replace('/ \(.*/', '', $color);
+            $color = chop($color);
+        });
+        $colors = array_unique($colors);
+        foreach($colors as $color) {
+            $this->aItemWords[] = $color;
+            $this->aItemCodes[] = $idx;
+        }
+    }
 }
