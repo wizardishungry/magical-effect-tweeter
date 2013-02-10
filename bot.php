@@ -49,6 +49,7 @@ $fun=array(
     '9803b66e314499c03e90fc34f16c44e687083812',
     '7ef4a0cbb635cbcf82f3923427531060c78f15a6',
     "25e994e9943af36a63b597ea61dc3392215d0d1e",
+    '558fc6d832c6482aa50b6252d163377915aa01e8',
     '02162649fee61841d4f60c698e975d5728222b0b',
     '44431deb70c9183793a264cb692cafd1452b0d6a',
     '327538e175436c7d697b910631bcc964d84b2643',
@@ -218,7 +219,7 @@ foreach($tweets as $tweet) {
         time()-$time<$user_wait_time;
 
     $txt = $magic->evolve($tweet->text,min(1000*$tweet->score,10000)*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
-    if(preg_match("/iOS|iPhone|Mac/",$tweet->source) && !@$state['alien'][$tweet->user->screen_name]) {
+    if(preg_match("/iOS|iPhone|Mac/",$tweet->source) && rand(0,10)==0 && !@$state['alien'][$tweet->user->screen_name]) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
     }
