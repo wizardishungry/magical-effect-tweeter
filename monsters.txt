@@ -288,12 +288,11 @@ pit fiend
 balrog
 mail daemon
 djinni
-sandestin
 jellyfish
 piranha
 shark
 giant eel
-electric
+electric eel
 kraken
 newt
 gecko
@@ -322,12 +321,7 @@ Shaman
 Norn
 Chromatic Dragon
 cyclops
-Ixoth
-Master Kaen
-Nalzok
-Scorpius
 master assassin
-Dark One
 student
 chieftain
 neanderthal
@@ -347,3 +341,4 @@ Mimic
 Paper golem
 wikipedia contributor
 wikia contributor
+shrek

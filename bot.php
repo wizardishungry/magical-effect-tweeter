@@ -52,7 +52,10 @@ $fun=array(
     '558fc6d832c6482aa50b6252d163377915aa01e8',
     '02162649fee61841d4f60c698e975d5728222b0b',
     'd4c35a9ac46efb14e9e1458b33e00bb47a86f603',
+    "ca25e721695438042be77c71860e6e7ea0a96c86",
     '44431deb70c9183793a264cb692cafd1452b0d6a',
+    'f515553b376d4baf5789caf8992fc80ee8964fd8',
+    '717e5de1c64b4bc411ac341684c363745204819d',
     '327538e175436c7d697b910631bcc964d84b2643',
     "0655d865738f91fc7747763eac30ccfc8c3dc728",
     "65ff2ea15c6b3255090fe54a5c9a59b095c19903",
@@ -60,6 +63,7 @@ $fun=array(
     "432cd9362785f5fe1c5552e72b1c75b003a66936",
     "1bcb7336ab1f8466f3308207abbb7199cf8f322d",
     "d1197c3a7d5be55070ffe3413a3c99ee2f54505b",
+    'df539854aadbdce620f16e49bb9c5e430009c114',
     "e02269904bb8457cb5862d023a0bb966cf38a268",
     "fa9c607e2715ec5ff5ccf1b13b9796ab9140ef08",
     "3f37a70e79174f0e256340a09b6889b612349895",
@@ -92,7 +96,7 @@ $astro_bot = new AstroBot(@$state['astro'],$twitter);
 $plant_bot = new PlantBot(@$state['plant'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
-$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 1400));
+$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 140));
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
 foreach($mentions as $mention) {
