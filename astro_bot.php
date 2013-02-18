@@ -34,7 +34,7 @@ class AstroBot
     public function daily()
     {
         $astro = new Astro();
-        if(time() > date_sunset(time(),SUNFUNCS_RET_TIMESTAMP)-3600 && time()-$state['time'] > 0.5*self::INTERVAL) {
+        if(time() > date_sunset(time(),SUNFUNCS_RET_TIMESTAMP)-3600 && time()-$this->state['time'] > 0.5*self::INTERVAL) {
             $strings = $astro->generate();
             $this->state['time']=time();
             $this->state['strings']=$strings;
