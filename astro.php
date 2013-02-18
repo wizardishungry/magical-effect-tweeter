@@ -13,8 +13,11 @@ class Astro extends Json
         date_default_timezone_set('America/New_York');
         //$this->stellar = new Stellar();
     }
-    public function generate()
+    public function generate($now=null)
     {
+        if($now==null) {
+            $now = time();
+        }
         $max=140;
         $str = self::COORDS;
         $str = `echo $str |astro  -olkc 1 -C 0.5 2> /dev/null `;
@@ -27,6 +30,14 @@ class Astro extends Json
                 $row = null;
             }
         }
-        return array_filter($rows);
+        $output = array();
+        foreach (array_filter($rows) as $v){
+            $k = time();
+            if(preg_match('/ at (.*)/',$v,$matches)) {
+                $k = strtotime($matches[1],$now);
+            }
+            $output[$k]=$v;
+        }
+        return $output;
     }
 }

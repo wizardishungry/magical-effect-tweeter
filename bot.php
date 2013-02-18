@@ -37,7 +37,7 @@ if(!$state) {
         'outfit'=>array(),
         'alien'=>array(),
         'stellar'=>0,
-        'astro'=>0,
+        'astro'=>array('time'=>0,'strings'=>array()),
         'plant'=>0,
     );
 }

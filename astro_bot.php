@@ -16,24 +16,32 @@ class AstroBot
 
     public function execute()
     {
-        $state = $this->state;
-        $astro = new Astro();
-        if(time() > date_sunset(time(),SUNFUNCS_RET_TIMESTAMP)-3600 && time()-$state > 0.5*self::INTERVAL) {
-            $strings = $astro->generate();
-            foreach($strings as $str) {
+        $this->daily();
+        $new_strings=array();
+        foreach($this->state['strings'] as $time => $str) {
+            if($time<=time()) {
                 $params = array(
                     'status'=>$str,
                 );
                 $this->twitter->post('statuses/update', $params);
-                sleep(rand(15,55));
             }
-            $state=time();
+            else {
+                $new_strings[$time]=$str;
+            }
+        }
+        $this->state['strings']=$new_strings;
+    }
+    public function daily()
+    {
+        $astro = new Astro();
+        if(time() > date_sunset(time(),SUNFUNCS_RET_TIMESTAMP)-3600 && time()-$state['time'] > 0.5*self::INTERVAL) {
+            $strings = $astro->generate();
+            $this->state['time']=time();
+            $this->state['strings']=$strings;
         }
         else
         {
-            echo "wait till after sunset!\n";
+            echo "wait till after sunset to generate!\n";
         }
-        $this->state=$state;
     }
-
 }

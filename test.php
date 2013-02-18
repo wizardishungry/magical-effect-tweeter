@@ -18,9 +18,10 @@ set_error_handler(function() { print_r(debug_backtrace()); exit; });
 
 $st =  $m->evolve("up next: Dancin on theer snake and over until somebody makes me stop",1);
 echo $st," ",strlen($st),"\n";
+
 echo $o->generate(),"\n";
-exit;
 print_r($a->generate());
+
 echo $s->generate(true),"\n";
 print_r( $s->generate_a(true));
 //echo $s->getImage('simpsons'),"\n";
