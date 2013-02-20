@@ -189,8 +189,6 @@ class Outfit extends Base
         $aItemCodes[$iCounter++]=16;
         $aItemWords[$iCounter]="long and slitted";
         $aItemCodes[$iCounter++]=16;
-        $aItemWords[$iCounter]="midriff-baring";
-        $aItemCodes[$iCounter++]=16;
 ;
         $aItemWords[$iCounter]="cotton";
         $aItemCodes[$iCounter++]=32;

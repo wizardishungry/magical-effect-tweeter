@@ -36,7 +36,7 @@ class Astro extends Json
             if(preg_match('/ at (.*)/',$v,$matches)) {
                 $k = strtotime($matches[1],$now);
                 if($k>$now) {
-                    $k = strtotime($matches[1],strtotime('tomorrow',$now));
+                    $k = strtotime($matches[1],strtotime(' tomorrow',$now));
                 }
             }
             $output[$k]=$v;
