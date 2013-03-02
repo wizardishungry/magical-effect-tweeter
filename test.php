@@ -20,7 +20,10 @@ $st =  $m->evolve("up next: Dancin on theer snake and over until somebody makes 
 echo $st," ",strlen($st),"\n";
 
 echo $o->generate(),"\n";
-print_r($a->generate());
+$az = $a->generate();
+foreach($az as $t => $v) {
+    echo date(DATE_RFC822,$t), " $v\n";
+}
 
 echo $s->generate(true),"\n";
 print_r( $s->generate_a(true));

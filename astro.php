@@ -32,12 +32,15 @@ class Astro extends Json
         }
         $output = array();
         foreach (array_filter($rows) as $v){
-            $k = time();
             if(preg_match('/ at (.*)/',$v,$matches)) {
-                $k = strtotime($matches[1],$now);
-                if($k>$now) {
-                    $k = strtotime($matches[1],strtotime(' tomorrow',$now));
+                $str = preg_replace('/:\d\d .*$/','',$matches[1]);
+                $k = strtotime($str,$now);
+                if($k<$now) {
+                    $k = strtotime($str,strtotime(' tomorrow',$now));
                 }
+            }
+            else {
+                $k = time();
             }
             $output[$k]=$v;
         }
