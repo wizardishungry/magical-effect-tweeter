@@ -20,7 +20,7 @@ class Astro extends Json
         }
         $max=140;
         $str = self::COORDS;
-        $str = `echo $str |astro  -olkc 1 -C 0.5 2> /dev/null `;
+        $str = `echo $str |astro  -olkc 1 -C 0.5 2> /dev/null | grep -vi comet `;
         $rows = explode("\n",$str);
         array_shift($rows);
         array_pop($rows);
@@ -44,6 +44,30 @@ class Astro extends Json
             }
             $output[$k]=$v;
         }
+
+        $output = $output + $this->comet();
+
+        return $output;
+    }
+    public function comet()
+    {
+        $path = dirname(__FILE__);
+        $str = `python2.6 $path/comet/ison.py 2> /dev/null `;
+        $rows = explode("\n",$str);
+        $time = time();
+        $output = array();
+        $value = '';
+        foreach($rows as $row)
+        {
+            if(preg_match('#C/2012#',$row)) {
+                $value = "Comet $row";
+            }
+            if(preg_match('#transit#',$row)) {
+                $time = strtotime(preg_replace('/^.*: /','',$row));
+            }
+        }
+        if($value)
+            $output[$time] = $value;
         return $output;
     }
 }
