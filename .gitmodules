@@ -4,3 +4,6 @@
 [submodule "comet"]
 	path = comet
 	url = https://gist.github.com/5104556.git
+[submodule "follow-back"]
+	path = follow-back
+	url = https://gist.github.com/4180268.git
