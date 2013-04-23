@@ -136,14 +136,14 @@ baby blue dragon
 baby green dragon
 baby yellow dragon
 gray dragon
-silver
+silver dragon
 red dragon
-white
-orange
-black
+white dragon
+orange dragon
+black dragon
 blue dragon
-green
-yellow
+green dragon
+yellow dragon
 stalker
 air elemental
 fire elemental
