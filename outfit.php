@@ -27,6 +27,8 @@ class Outfit extends Base
         // 64 - Tightness
         // 128 - Pattern
         // 256 - .
+        // 512 - embroidery
+        // 1024 - monsters
 
         // {{{
         $aItemWords[$iCounter]="light red";
@@ -313,16 +315,30 @@ class Outfit extends Base
         $aItemCodes[$iCounter++]=256;
         $aItemWords[$iCounter]="…";
         $aItemCodes[$iCounter++]=256;
-;
-;
+
+        $aItemWords[$iCounter]= "embroidered";
+        $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "silk-screened";
+        $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "screen-printed";
+        $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "embossed";
+        $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "decorated";
+        $aItemCodes[$iCounter++]=512;
+
         $iCounter=0;
-;
-;
+
         //These are ways data can be formated.;
         //The first array is what value the tagged items must contain;
         //The second array contains the text that follows (first), is after each word (the latter) and finishes the construct (final one);
         $aCheckArray[$iCounter] = array(64,1,4,16,32);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is ",", and made of ",".");
+        $aCheckArray[$iCounter] = array(64,1,4,512,1024,32);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is "," with a ",", and made of ",".");
+        $aCheckArray[$iCounter] = array(64,1,4,16,512,1024,32);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is ",", "," with a ",", and made of ",".");
+
         $aCheckArray[$iCounter] = array(64,1,8,1,64);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt, with ",", and ",", "," pants.");
         $aCheckArray[$iCounter] = array(16,1,4);
@@ -331,6 +347,8 @@ class Outfit extends Base
         $aCheckText[$iCounter++] = array("You are wearing a "," "," dress with ",".");
         $aCheckArray[$iCounter] = array(64,1,8,16,32);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is ",", and made of ",".");
+        $aCheckArray[$iCounter] = array(64,1,8,16,512,1024,32);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is ",", "," with a ",", and made of ",".");
         $aCheckArray[$iCounter] = array(64,1,4,1,64);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt, with ",", and ",", "," pants.");
         $aCheckArray[$iCounter] = array(16,1,8);
@@ -375,10 +393,18 @@ class Outfit extends Base
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt with matching pants.");
         $aCheckArray[$iCounter] = array(32,1);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt with a matching skirt.");
+        $aCheckArray[$iCounter] = array(32,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt with matching pants. It is "," with a ",".");
+        $aCheckArray[$iCounter] = array(32,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt with a matching skirt. It is "," with a ",".");
         $aCheckArray[$iCounter] = array(1,1,128);
         $aCheckText[$iCounter++] = array("You are wearing a "," dress with "," ",".");
         $aCheckArray[$iCounter] = array(32,1);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress.");
+        $aCheckArray[$iCounter] = array(1,1,128,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a "," dress with "," ",". It is "," with a ",".");
+        $aCheckArray[$iCounter] = array(32,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress. It is "," with a ",".");
         $aCheckArray[$iCounter] = array(1,1,1);
         $aCheckText[$iCounter++] = array("You are wearing a "," suit, a "," shirt, and a "," tie.");
         // }}}
@@ -388,7 +414,8 @@ class Outfit extends Base
         $this->aItemWords=$aItemWords;
         $this->aItemCodes=$aItemCodes;
 
-        $this->moreColors(1);
+        $colors = $this->moreColors(1);
+        $this->moreMonsters(1024, $colors);
     }
 
 }

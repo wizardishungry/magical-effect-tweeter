@@ -117,5 +117,37 @@ abstract class Base
             $this->aItemWords[] = $color;
             $this->aItemCodes[] = $idx;
         }
+        return $colors;
+    }
+
+    protected function moreMonsters($idx, $colors)
+    {
+        $monsters = file(dirname(__FILE__)."/monsters.txt",FILE_SKIP_EMPTY_LINES);
+        if($idx==1) {
+            array_walk($monsters, function(&$monster) {
+                $monster = strtolower($monster);
+                    $monster = "You turn into a $monster";
+            });
+        }
+
+        $monsters = array_unique($monsters);
+        $new_monsters = array();
+        foreach($monsters as &$monster) {
+            $monster = chop($monster);
+            $parts = explode(' ', $monster);
+            foreach($parts as $k => $part) {
+                if(in_array($part,$colors)) {
+                    foreach($colors as $color) {
+                        $new_monsters[] = implode(' ', array_merge(array_slice($parts,0,$k) , array($color) , array_slice($parts, $k+1)));
+                    }
+                }
+            }
+        }
+        $monsters += $new_monsters;
+
+        foreach($monsters as $monster) {
+            $this->aItemWords[] = $monster;
+            $this->aItemCodes[] = $idx;
+        }
     }
 }
