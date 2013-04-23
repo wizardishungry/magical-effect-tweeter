@@ -171,7 +171,7 @@ foreach($tweets as $tweet) {
     $considerable=($time>@$state['consider'][$user]);
     $consider[$user]=max($time,@$consider[$user]);
 
-    $difficulty = 30000
+    $difficulty = 45000
         + 1250 *( !@$state['consider'][$user] ) // be much less likely with new tweeters
         +  250 *( $yes&&$allowed ) // be less likely with sequential tweets
         -  200 *( time() - $state['time'] > $user_wait_time ) // be more likely if we havent succeeded in a while

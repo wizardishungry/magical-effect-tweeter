@@ -142,6 +142,11 @@ abstract class Base
                         $new_monsters[] = implode(' ', array_merge(array_slice($parts,0,$k) , array($color) , array_slice($parts, $k+1)));
                     }
                 }
+                else {
+                    foreach($colors as $color) {
+                        $new_monsters[] = (rand(0,10)==0?"$color ":'') . $monster; // fixme magic number
+                    }
+                }
             }
         }
         $monsters += $new_monsters;
