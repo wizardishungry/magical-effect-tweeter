@@ -43,42 +43,7 @@ if(!$state) {
 }
 
 $state_prefixes = array('consider','outfit');
-$fun=array(
-    "242afec37be317ec2ad26d5f1460488fec7f25c8",
-    "e818445223cfe518f33b892b124af8ddcc2868ff",
-    '9803b66e314499c03e90fc34f16c44e687083812',
-    '7ef4a0cbb635cbcf82f3923427531060c78f15a6',
-    "25e994e9943af36a63b597ea61dc3392215d0d1e",
-    '28ecef7cdc7687e088449054e2bf14b0f300cada',
-    '558fc6d832c6482aa50b6252d163377915aa01e8',
-    '02162649fee61841d4f60c698e975d5728222b0b',
-    'd4c35a9ac46efb14e9e1458b33e00bb47a86f603',
-    "ca25e721695438042be77c71860e6e7ea0a96c86",
-    "9ee5facaa2917e083134b0b64995efd7c796add2",
-    '44431deb70c9183793a264cb692cafd1452b0d6a',
-    'f515553b376d4baf5789caf8992fc80ee8964fd8',
-    '717e5de1c64b4bc411ac341684c363745204819d',
-    '327538e175436c7d697b910631bcc964d84b2643',
-    "0655d865738f91fc7747763eac30ccfc8c3dc728",
-    "65ff2ea15c6b3255090fe54a5c9a59b095c19903",
-    "02162649fee61841d4f60c698e975d5728222b0b",
-    "432cd9362785f5fe1c5552e72b1c75b003a66936",
-    "1bcb7336ab1f8466f3308207abbb7199cf8f322d",
-    "d1197c3a7d5be55070ffe3413a3c99ee2f54505b",
-    'df539854aadbdce620f16e49bb9c5e430009c114',
-    "e02269904bb8457cb5862d023a0bb966cf38a268",
-    "fa9c607e2715ec5ff5ccf1b13b9796ab9140ef08",
-    "3f37a70e79174f0e256340a09b6889b612349895",
-    "f13873f978ca6ce3f0bafc33e2e55dcd0c44343b",
-    "b5b1fbee4c7b09e593a9674d5563f16e0986504a",
-    "d4d4b59e2de89778038c33846091a15db0eecc94",
-    "89e73d4913d71b92b92c2352f9a021a694a68a63",
-    "a58ed94ec6d6694b1e8ce21e8e18e07b8ece8705",
-    "5120636f96ac56c15b3232d62a0c81c16b09521b",
-    "0a9a7d57cf48f14b45d48eb864b73afdda39e869",
-    "9f48bca8c59a71af5542998165bce0a9283b1b85",
-    "e0b6489cccd8d95d0e800efb17a8744720218011",
-);
+
 foreach($state_prefixes as $prefix) {
     foreach($state[$prefix] as $user => &$time) {
         $s = sha1($user);
@@ -206,7 +171,7 @@ foreach($tweets as $tweet) {
     $considerable=($time>@$state['consider'][$user]);
     $consider[$user]=max($time,@$consider[$user]);
 
-    $difficulty = 8500
+    $difficulty = 20000
         + 1250 *( !@$state['consider'][$user] ) // be much less likely with new tweeters
         +  250 *( $yes&&$allowed ) // be less likely with sequential tweets
         -  200 *( time() - $state['time'] > $user_wait_time ) // be more likely if we havent succeeded in a while
