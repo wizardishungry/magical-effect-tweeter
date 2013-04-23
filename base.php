@@ -1,5 +1,6 @@
 <?php;
 error_reporting(E_ALL);
+ini_set('memory_limit', '2048M');
 // http://mochakimono.chipx86.com/agen2.html;
 abstract class Base
 {
