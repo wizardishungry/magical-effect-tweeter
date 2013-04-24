@@ -173,25 +173,25 @@ foreach($tweets as $tweet) {
 
     $difficulty = 45000
         + 1250 *( !@$state['consider'][$user] ) // be much less likely with new tweeters
-        +  250 *( $yes&&$allowed ) // be less likely with sequential tweets
-        -  200 *( time() - $state['time'] > $user_wait_time ) // be more likely if we havent succeeded in a while
-        -  150 *( time() - $time <= 60 ) // be more likely if the tweet was in last 60 seconds
-        -  100 *( time() - $time <= 300 ) // be more likely if the tweet was in last 5 min
-        +  550 *( !in_array($time_parts['tm_wday'],array(0,6)) && in_array($time_parts['tm_hour'],range(6,20)) ) // be more difficult during work week
-        -  750 *( in_array($time_parts['tm_hour'],range(0,4)) ) // more late night
-        -  700 *( $time_parts["tm_mon"] == 11 && $time_parts['tm_mday'] == 1  )
-        -  700 *( $time_parts["tm_mon"] == 10 && $time_parts['tm_mday'] >= 29  )
-        -  1700 *( $time_parts["tm_mon"] == 12 && $time_parts['tm_mday'] >= 21  ) // 2012
+        +  25000 *( $yes&&$allowed ) // be less likely with sequential tweets
+        -  20000 *( time() - $state['time'] > $user_wait_time ) // be more likely if we havent succeeded in a while
+        -  15000 *( time() - $time <= 60 ) // be more likely if the tweet was in last 60 seconds
+        -  10000 *( time() - $time <= 300 ) // be more likely if the tweet was in last 5 min
+        +  55000 *( !in_array($time_parts['tm_wday'],array(0,6)) && in_array($time_parts['tm_hour'],range(6,20)) ) // be more difficult during work week
+        -  30000 *( in_array($time_parts['tm_hour'],range(0,4)) ) // more late night
+        -  17000 *( $time_parts["tm_mon"] == 11 && $time_parts['tm_mday'] == 1  )
+        -  17000 *( $time_parts["tm_mon"] == 10 && $time_parts['tm_mday'] >= 29  )
+        -  17000 *( $time_parts["tm_mon"] == 12 && $time_parts['tm_mday'] >= 21  ) // 2012
     ;
     ;
-    $yes=$tweet->score > rand(0,$difficulty);
+    $yes=$tweet->score > rand(10000,$difficulty);
 
     $allowed=
         $time-@$state['users'][$user]>$user_wait_time &&
         time()-@$state['users'][$user]>$user_wait_time &&
         time()-$time<$user_wait_time;
 
-    $txt = $magic->evolve($tweet->text,min(1000*$tweet->score,10000)*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
+    $txt = $magic->evolve($tweet->text,min(1000*$tweet->score,1000)*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
     if(preg_match("/iOS|iPhone|Mac/",$tweet->source) && rand(0,10)==0 && !@$state['alien'][$tweet->user->screen_name]) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
