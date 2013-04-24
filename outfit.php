@@ -361,6 +361,8 @@ class Outfit extends Base
         $aCheckText[$iCounter++] = array("You are wearing a "," "," dress with ",".");
         $aCheckArray[$iCounter] = array(16,1);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress.");
+        $aCheckArray[$iCounter] = array(16,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress. It is "," with a ",".");
         $aCheckArray[$iCounter] = array(16,1,1,128);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress with "," ",".");
         $aCheckArray[$iCounter] = array(32,1,1,128);
@@ -379,6 +381,10 @@ class Outfit extends Base
         $aCheckText[$iCounter++] = array("You are wearing a ",", ",", "," dress.");
         $aCheckArray[$iCounter] = array(16,32,64,1);
         $aCheckText[$iCounter++] = array("You are wearing a ",", ",", ",", "," dress.");
+        $aCheckArray[$iCounter] = array(32,16,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", ",", "," dress, "," with a ",".");
+        $aCheckArray[$iCounter] = array(16,32,64,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", ",", ",", "," dress, "," with a ",".");
         $aCheckArray[$iCounter] = array(2,256);
         $aCheckText[$iCounter++] = array("","","");
         $aCheckArray[$iCounter] = array(2,256);
@@ -395,6 +401,8 @@ class Outfit extends Base
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is ",".");
         $aCheckArray[$iCounter] = array(64,1,8,16);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," dress, with ",". It is ",".");
+        $aCheckArray[$iCounter] = array(32,1,512,1024);
+        $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt "," with a ",".");
         $aCheckArray[$iCounter] = array(32,1);
         $aCheckText[$iCounter++] = array("You are wearing a ",", "," shirt with matching pants.");
         $aCheckArray[$iCounter] = array(32,1);
