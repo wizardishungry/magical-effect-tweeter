@@ -1,4 +1,4 @@
-<?php;
+<?php
 error_reporting(E_ALL);
 ini_set('memory_limit', '2048M');
 // http://mochakimono.chipx86.com/agen2.html;
@@ -9,6 +9,7 @@ abstract class Base
     protected $aCheckText;
     protected $aItemWords;
     protected $aItemCodes;
+    protected $aItemCodesMemoized;
 
     //Regular functions;
 
@@ -16,8 +17,9 @@ abstract class Base
     {
         $intReturn; $intLooper;
         $bEnd=false;
+        $count = 0;
 
-        while ($bEnd==false)
+        while ($bEnd==false && $count++<1000000000)
         {
             $intReturn=rand(0,count($this->aItemCodes)-1);
 
@@ -35,9 +37,44 @@ abstract class Base
             }
         }
 
+        if(!$bEnd) {
+            throw new Exception("Trying to locate mask $intCheckNumber failed; " . count($this->aItemCodes)." items.");
+        }
         return $intReturn;
     }
 
+    protected function getNumber2($aCurrArray, $intCheckNumber)
+    {
+        if(!isset($this->aItemCodesMemoized)||!isset($this->aItemCodesMemoized[$intCheckNumber])) {
+            if(!isset($this->aItemCodesMemoized)) {
+                $this->aItemCodesMemoized=array();
+            }
+            foreach($this->aItemCodes as $idx => $code) {
+                if(!isset($this->aItemCodesMemoized[$code])) {
+                    $this->aItemCodesMemoized = array();
+                }
+                $this->aItemCodesMemoized[$code][] = $idx;
+            }
+        }
+        //////
+        $bEnd = false;
+        while($bEnd==false) {
+            $intReturn = $this->aItemCodesMemoized[$intCheckNumber][array_rand($this->aItemCodesMemoized[$intCheckNumber])];
+
+
+            if (($this->aItemCodes[$intReturn]  &  $intCheckNumber)==$intCheckNumber) {
+                $bEnd=true;
+            }
+
+            for ($intLooper=0;$intLooper<count($aCurrArray);$intLooper++) {
+                if ($aCurrArray[$intLooper]==$intReturn) {
+                    $bEnd=false;
+                }
+            }
+
+        }
+        return $intReturn;
+    }
 
 
     public function generate()
@@ -124,12 +161,6 @@ abstract class Base
     protected function moreMonsters($idx, $colors)
     {
         $monsters = file(dirname(__FILE__)."/monsters.txt",FILE_SKIP_EMPTY_LINES);
-        if($idx==1) {
-            array_walk($monsters, function(&$monster) {
-                $monster = strtolower($monster);
-                    $monster = "You turn into a $monster";
-            });
-        }
 
         $monsters = array_unique($monsters);
         $new_monsters = array();
@@ -152,6 +183,10 @@ abstract class Base
         $monsters += $new_monsters;
 
         foreach($monsters as $monster) {
+            $monster = strtolower($monster);
+            if($idx==1) {
+                $monster = "You turn into a $monster";
+            }
             $this->aItemWords[] = $monster;
             $this->aItemCodes[] = $idx;
         }
