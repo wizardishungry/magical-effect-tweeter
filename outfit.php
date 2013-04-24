@@ -326,6 +326,12 @@ class Outfit extends Base
         $aItemCodes[$iCounter++]=512;
         $aItemWords[$iCounter]= "decorated";
         $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "emblazoned";
+        $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "adorned";
+        $aItemCodes[$iCounter++]=512;
+        $aItemWords[$iCounter]= "embellished";
+        $aItemCodes[$iCounter++]=512;
 
         $iCounter=0;
 
