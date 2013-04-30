@@ -161,6 +161,7 @@ abstract class Base
     protected function moreMonsters($idx, $colors)
     {
         $monsters = file(dirname(__FILE__)."/monsters.txt",FILE_SKIP_EMPTY_LINES);
+        $monsters += file(dirname(__FILE__)."/pokemon.txt",FILE_SKIP_EMPTY_LINES);
 
         $monsters = array_unique($monsters);
         $new_monsters = array();
