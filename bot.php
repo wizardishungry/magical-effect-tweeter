@@ -67,7 +67,7 @@ $twitter->host = "https://api.twitter.com/1/";
 $tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 140));
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
-if(!is_array($mentions)) echo ("Tweets not fetched");
+if(!is_array($mentions)) echo ("Mentions not fetched\n");
 else
 foreach($mentions as $mention) {
     if(strtotime($mention->created_at) - @$state['users'][$mention->user->screen_name] > $one_day) {
@@ -197,7 +197,7 @@ foreach($tweets as $tweet) {
         time()-$time<$user_wait_time;
 
     $txt = $magic->evolve($tweet->text,min(1000*$tweet->score,1000)*($yes&&$allowed&&$considerable&&time()%2&&rand(0,1))); // only run evolve if we can post
-    if(preg_match("/iOS|iPhone|Mac/",$tweet->source) && rand(0,10)==0 && !@$state['alien'][$tweet->user->screen_name]) {
+    if(preg_match("/iOS|iPhone|Mac/",$tweet->source) && rand(0,1)==0 && !@$state['alien'][$tweet->user->screen_name]) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
     }
