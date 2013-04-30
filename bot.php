@@ -67,6 +67,8 @@ $twitter->host = "https://api.twitter.com/1/";
 $tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 140));
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
+if(!is_array($mentions)) echo ("Tweets not fetched");
+else
 foreach($mentions as $mention) {
     if(strtotime($mention->created_at) - @$state['users'][$mention->user->screen_name] > $one_day) {
         //echo "unsetting ",$mention->user->screen_name,"\n";
@@ -78,6 +80,7 @@ foreach($mentions as $mention) {
 }
 
 
+if(!is_array($tweets_o)) die("Tweets not fetched");
 $tweets = array_filter($tweets_o, function($tweet) {
     global $bad_words, $searches, $soundexs, $fun;
 
@@ -162,6 +165,8 @@ file_put_contents("$path/STATE",json_encode($state));
 $time_parts=localtime(time(),true);
 $yes=false;
 $allowed=false;
+
+if(!is_array($tweets)) die("Tweets not fetched");
 
 foreach($tweets as $tweet) {
     if(in_array($tweet,$used)) break;
