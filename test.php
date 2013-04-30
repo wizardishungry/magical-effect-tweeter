@@ -16,10 +16,12 @@ $p = new Plant();
 
 set_error_handler(function() { print_r(debug_backtrace()); exit; });
 
+echo $m->generate(),"\n";
+exit;
+echo $o->generate(),"\n";
 $st =  $m->evolve("up next: Dancin on theer snake and over until somebody makes me stop",1);
 echo $st," ",strlen($st),"\n";
 
-echo $o->generate(),"\n";
 $az = $a->generate();
 foreach($az as $t => $v) {
     echo date(DATE_RFC822,$t), " $v\n";

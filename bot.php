@@ -23,7 +23,7 @@ $soundexs= array_map(function($e){
 $soundexs=array_unique($soundexs);
 
 $one_day=86400;
-$user_wait_time = 2*7*$one_day; // time before responding to user again
+$user_wait_time = 2*$one_day; // time before responding to user again
 
 /////////////////////////////////////////////////////////////////////////////////////////
 date_default_timezone_set('America/New_York');
