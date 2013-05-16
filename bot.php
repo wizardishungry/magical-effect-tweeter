@@ -1,12 +1,5 @@
 <?php
-require_once('twitteroauth/twitteroauth/twitteroauth.php');
-require_once('config.php');
-require_once('magic.php');
-require_once('lib.php');
-require_once('outfit_bot.php');
-require_once('stellar_bot.php');
-require_once('astro_bot.php');
-require_once('plant_bot.php');
+require_once('deps.php');
 
 $path = dirname(__FILE__);
 
@@ -24,9 +17,6 @@ $soundexs=array_unique($soundexs);
 
 $one_day=86400;
 $user_wait_time = 2*$one_day; // time before responding to user again
-
-/////////////////////////////////////////////////////////////////////////////////////////
-date_default_timezone_set('America/New_York');
 
 $state = json_decode(@file_get_contents("$path/STATE"), true);
 if(!$state) {
@@ -64,7 +54,7 @@ $astro_bot = new AstroBot(@$state['astro'],$twitter);
 $plant_bot = new PlantBot(@$state['plant'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
-$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 140));
+$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 1400));
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
 if(!is_array($mentions)) echo ("Mentions not fetched\n");
