@@ -54,7 +54,7 @@ $astro_bot = new AstroBot(@$state['astro'],$twitter);
 $plant_bot = new PlantBot(@$state['plant'],$twitter);
 
 $twitter->host = "https://api.twitter.com/1/";
-$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 1400));
+$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 100));
 
 $mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
 if(!is_array($mentions)) echo ("Mentions not fetched\n");
