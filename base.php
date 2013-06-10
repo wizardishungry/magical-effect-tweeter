@@ -192,4 +192,11 @@ abstract class Base
             $this->aItemCodes[] = $idx;
         }
     }
+
+    public function dumpJson() {
+        $nums = $this->aCheckArray;
+        $words = $this->aCheckText);
+        $stuff = array_combine($nums, $words);
+        return json_encode($stuff);
+    }
 }
