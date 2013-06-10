@@ -14,7 +14,7 @@ $a = new Astro();
 $p = new Plant();
 
 
-set_error_handler(function() { print_r(debug_backtrace()); exit; });
+//set_error_handler(function() { print_r(debug_backtrace()); exit; });
 
 echo $m->dumpJson(),"\n";
 echo $o->dumpJson(),"\n";

@@ -196,7 +196,19 @@ abstract class Base
     public function dumpJson() {
         $nums = $this->aCheckArray;
         $words = $this->aCheckText;
-        $stuff = array_combine($nums, $words);
-        return json_encode($stuff);
+        return json_encode(
+            array_map(function($nums,$words)
+            {
+                $output = array();
+                while(NULL !== $str = array_shift($words)) {
+                    if(NULL !== $num = array_shift($nums)) {
+                        $str.= "\\$num";
+                    }
+                    $output[] =$str;
+                }
+                return trim(implode('',array_filter($output)));
+            },
+            $nums, $words)
+        );
     }
 }
