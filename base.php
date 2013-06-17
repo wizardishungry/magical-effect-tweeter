@@ -201,6 +201,8 @@ abstract class Base
             {
                 $output = array();
                 while(NULL !== $str = array_shift($words)) {
+                    if($str === "")
+                        $str = ' ';
                     if(NULL !== $num = array_shift($nums)) {
                         $str.= "\\$num";
                     }

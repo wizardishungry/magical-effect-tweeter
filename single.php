@@ -3,7 +3,7 @@ require_once('deps.php');
 
 
 $twitter = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-$twitter->host = "https://api.twitter.com/1/";
+//$twitter->host = "https://api.twitter.com/1/";
 
 function usage() {
     global $argv;

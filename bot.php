@@ -53,11 +53,14 @@ $stellar_bot = new StellarBot(@$state['stellar'],$twitter);
 $astro_bot = new AstroBot(@$state['astro'],$twitter);
 $plant_bot = new PlantBot(@$state['plant'],$twitter);
 
-$twitter->host = "https://api.twitter.com/1/";
-$tweets_o = $twitter->get('statuses/friends_timeline',array('count' => 100));
+$twitter->host = "https://api.twitter.com/1.1/";
+$tweets_o = $twitter->get('statuses/home_timeline',array('count' => 100));
 
-$mentions = $twitter->get('statuses/mentions',array('include_rts' => true));
-if(!is_array($mentions)) echo ("Mentions not fetched\n");
+$mentions = $twitter->get('statuses/mentions_timeline',array('include_rts' => true));
+if(!is_array($mentions)) {
+    echo ("Mentions not fetched\n");
+    print_r($twitter); die;
+}
 else
 foreach($mentions as $mention) {
     if(strtotime($mention->created_at) - @$state['users'][$mention->user->screen_name] > $one_day) {
