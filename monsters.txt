@@ -23,6 +23,8 @@ werewolf
 warg
 winter wolf cub
 winter wolf
+shiba inu
+shiba inu pup
 hell hound pup
 hell hound
 gas spore
@@ -149,6 +151,8 @@ air elemental
 fire elemental
 earth elemental
 water elemental
+gluten elemental
+rice & beans elemental
 lichen
 brown mold
 yellow mold
@@ -245,6 +249,8 @@ clay golem
 stone golem
 glass golem
 iron golem
+dough golem
+play-doh golem
 human
 wererat
 werejackal
@@ -342,3 +348,4 @@ Paper golem
 wikipedia contributor
 wikia contributor
 shrek
+raver
