@@ -226,6 +226,7 @@ monkey
 ape
 owlbear
 yeti
+gluten-free ape
 carnivorous ape
 sasquatch
 kobold
@@ -251,6 +252,7 @@ glass golem
 iron golem
 dough golem
 play-doh golem
+quinoa golem
 human
 wererat
 werejackal
@@ -279,7 +281,7 @@ Croesus
 ghost
 shade
 water demon
-horned
+horned demon
 succubus
 incubus
 erinys
@@ -349,3 +351,4 @@ wikipedia contributor
 wikia contributor
 shrek
 raver
+rasta
