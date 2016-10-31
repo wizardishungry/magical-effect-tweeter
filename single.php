@@ -34,7 +34,10 @@ do {
         exit();
     }
     $txt = $o->generate();
-    $status = '@'. $user." $txt";
+    if(strtolower($user) == 'hillaryclinton') {
+        $txt = preg_replace('/ dress/', ' pantsuit', $txt);
+    }
+    $status = '. @'. $user." $txt";
     echo str_repeat("*",140), "\n","$status\n";
 
     $params=array(
