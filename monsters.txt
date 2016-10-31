@@ -111,8 +111,8 @@ warhorse
 fog cloud
 dust vortex
 ice vortex
-energy
-steam
+energy vortex
+steam vortex
 fire vortex
 baby long worm
 baby purple worm
@@ -387,3 +387,26 @@ rare pepe
 common pepe
 prince stolas cosplayer
 youtube celebrity
+red panda
+panda
+panda cub
+red panda cub
+undead panda
+vampire kangaroo
+kangaroo
+short-fingered vulgarian
+donkey
+burner
+twitter bot
+SEO consultant
+varsity football player
+junior varsity football player
+train conductor
+anthropomorphic rapping bear
+press secretary
+game show host
+little league player
+baseball player
+minor league baseball player
+professor
+teacher
