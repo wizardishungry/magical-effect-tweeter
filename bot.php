@@ -16,7 +16,7 @@ $soundexs= array_map(function($e){
 $soundexs=array_unique($soundexs);
 
 $one_day=86400;
-$user_wait_time = 2*$one_day; // time before responding to user again
+$user_wait_time = 0.1*$one_day; // time before responding to user again
 
 $state = json_decode(@file_get_contents("$path/STATE"), true);
 if(!$state) {
@@ -67,7 +67,7 @@ foreach($mentions as $mention) {
         //echo "unsetting ",$mention->user->screen_name,"\n";
         $state['users'][$mention->user->screen_name]=0;
     }
-    if(preg_match('/alien|skull|boxes|👽|dfkgjjkdfgd/', $mention->text)) {
+    if(preg_match('/alien|skull|boxes|👽|dfkgjjkdfgd/i', $mention->text)) {
         $state['alien'][$mention->user->screen_name]=1;
     }
 }
@@ -185,6 +185,7 @@ foreach($tweets as $tweet) {
     $yes=$tweet->score > rand(10000,$difficulty);
 
     $allowed=
+        $user != 'prince_stolas' &&
         $time-@$state['users'][$user]>$user_wait_time &&
         time()-@$state['users'][$user]>$user_wait_time &&
         time()-$time<$user_wait_time;
@@ -194,6 +195,11 @@ foreach($tweets as $tweet) {
         $escaped = escapeshellarg($txt);
         $txt=chop(`echo $escaped | $path/gistfile1.pl`); // can't do shit
     }
+
+    if(strtolower($user) == 'hillaryclinton') {
+            $txt = preg_replace('/ dress/', ' pantsuit', $txt);
+    }
+
     $status = '@'. $user." $txt";
 
     $params['status']=$status;
@@ -217,7 +223,7 @@ foreach($tweets as $tweet) {
         //sleep(rand(60,120));
     }
     if($yes&&$allowed&&$considerable)
-        sleep(5);
+        sleep(1);
 
 }
 $state['consider']=$consider;

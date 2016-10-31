@@ -2,6 +2,7 @@ giant ant
 killer bee
 soldier ant
 fire ant
+spicy boy
 giant
 queen bee
 acid blob
@@ -16,19 +17,25 @@ coyote
 werejackal
 little dog
 dog
+doge
 large dog
 dingo
 wolf
 werewolf
+weredolphin
 warg
 winter wolf cub
 winter wolf
 shiba inu
 shiba inu pup
+corgi
+corgi pup
 hell hound pup
 hell hound
+heck hound
+heck hound pup
 gas spore
-floating
+floating sphere
 freezing sphere
 flaming sphere
 shocking sphere
@@ -153,11 +160,15 @@ earth elemental
 water elemental
 gluten elemental
 rice & beans elemental
+greek yogurt elemental
 lichen
 brown mold
 yellow mold
 green mold
 red mold
+poutine mold
+jello mold
+vegan jello mold
 shrieker
 violet
 gnome
@@ -228,6 +239,7 @@ owlbear
 yeti
 gluten-free ape
 carnivorous ape
+pescatarian ape
 sasquatch
 kobold
 gnome
@@ -253,6 +265,8 @@ iron golem
 dough golem
 play-doh golem
 quinoa golem
+gelato golem
+soylent golem
 human
 wererat
 werejackal
@@ -352,3 +366,24 @@ wikia contributor
 shrek
 raver
 rasta
+brogrammer
+venture capitalist
+life coach
+chief of staff
+blogger
+gawker staffer
+dwarvish gawker staffer
+elvish gawker staffer
+undead gawker staffer
+gawker writer
+dwarvish gawker writer
+elvish gawker writer
+undead gawker writer
+gawker editor
+dwarvish gawker editor
+elvish gawker editor
+undead gawker editor
+rare pepe
+common pepe
+prince stolas cosplayer
+youtube celebrity

@@ -18,7 +18,7 @@ class PlantBot
     {
         $state = $this->state;
         $parts = getdate();
-        $count=rand(-10,1);
+        $count=rand(-2,1);
         if(time()-$this->state>self::INTERVAL && ($parts['hours']>=8&&$parts['hours']<=18)) {
             echo "in pl loop\n";
             $plant = new Plant();
